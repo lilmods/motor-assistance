@@ -3,7 +3,7 @@
   "id": "aimassistance",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "AimAssistance",
   "description": "Helps you aiming when mining and attacking mobs. Perfect mod for computer newbies. Works great with controllers. Doesn't work on players (no PvP advantage)",
   "authors": [
     "lilgallon"
@@ -31,8 +31,7 @@
     "fabricloader": ">=0.14.0",
     "minecraft": "1.19.x",
     "java": ">=17",
-    "fabric-language-kotlin": ">=1.8.3+kotlin.1.7.10",
-    "cloth-config": ">=8.0.0"
+    "fabric-language-kotlin": ">=1.8.3+kotlin.1.7.10"
   },
   "suggests": {}
 }

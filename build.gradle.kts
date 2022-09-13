@@ -9,8 +9,8 @@ group = property("maven_group")!!
 version = property("mod_version")!!
 
 repositories {
-    maven("https://maven.shedaniel.me/")
-    maven("https://maven.terraformersmc.com/releases/")
+    maven("https://maven.shedaniel.me/") // cloth config
+    maven("https://maven.terraformersmc.com/releases/") // mod menu
 }
 
 dependencies {
@@ -22,6 +22,7 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:${property("cloth_config_version")}") {
         exclude("net.fabricmc.fabric-api")
     }
+    modApi("com.terraformersmc:modmenu:${property("mod_menu_version")}")
 }
 
 tasks {

@@ -9,6 +9,8 @@ group = property("maven_group")!!
 version = property("mod_version")!!
 
 repositories {
+    maven("https://maven.shedaniel.me/")
+    maven("https://maven.terraformersmc.com/releases/")
 }
 
 dependencies {
@@ -17,6 +19,9 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${property("cloth_config_version")}") {
+        exclude("net.fabricmc.fabric-api")
+    }
 }
 
 tasks {

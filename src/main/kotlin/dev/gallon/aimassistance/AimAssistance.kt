@@ -1,8 +1,8 @@
-package net.fabricmc.example
+package dev.gallon.aimassistance
 
 import net.fabricmc.api.ModInitializer
 
-class ExampleMod : ModInitializer {
+class AimAssistance : ModInitializer {
 
     override fun onInitialize() {
         //TODO - "Not yet implemented"

@@ -1,4 +1,4 @@
-rootProject.name = "fabric-example-mod-kotlin-with-kotlin-dsl"
+rootProject.name = "AimAssistance"
 pluginManagement {
     repositories {
         maven("https://maven.fabricmc.net/") {
@@ -13,8 +13,8 @@ pluginManagement {
     plugins {
         id("fabric-loom") version loom_version
         id("org.jetbrains.kotlin.jvm") version
-                fabric_kotlin_version
-                    .split("+kotlin.")[1] // Grabs the sentence after `+kotlin.`
-                    .split("+")[0] // Ensures sentences like `+build.1` are ignored
+            fabric_kotlin_version
+                .split("+kotlin.")[1] // Grabs the sentence after `+kotlin.`
+                .split("+")[0] // Ensures sentences like `+build.1` are ignored
     }
 }

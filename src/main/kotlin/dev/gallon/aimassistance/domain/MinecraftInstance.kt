@@ -2,6 +2,8 @@ package dev.gallon.aimassistance.domain
 
 interface MinecraftInstance {
 
+    fun getPlayer(): PlayerInstance?
+
     /**
      * @return true if the attack key is being pressed
      */
@@ -17,14 +19,4 @@ interface MinecraftInstance {
      * @return the block the user is looking at if there's one
      */
     fun getPointedBlock(maxRange: Double): BlockInstance?
-
-    fun getRotationsNeededFromPlayerView(
-        target: TargetInstance,
-        fovX: Double,
-        fovY: Double,
-        aimForceX: Double,
-        aimForceY: Double
-    ): Vec2d
-
-    fun rayTrace(reach: Double, source: Position, direction: Vec2d): BlockInstance?
 }

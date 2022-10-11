@@ -3,8 +3,6 @@ package dev.gallon.aimassistance
 import dev.gallon.aimassistance.domain.AimAssistanceConfig
 import dev.gallon.aimassistance.domain.AimAssistanceService
 import dev.gallon.aimassistance.infra.FabricMinecraftInstance
-import dev.gallon.aimassistance.infra.FabricPlayerInstance
-import dev.gallon.aimassistance.infra.events.RenderEvent
 import dev.gallon.aimassistance.infra.events.SingleEventBus
 import dev.gallon.aimassistance.infra.events.TickEvent
 import net.fabricmc.api.ModInitializer
@@ -19,7 +17,6 @@ class AimAssistance : ModInitializer {
             if (aimAssistance == null && MinecraftClient.getInstance().player != null) {
                 aimAssistance = AimAssistanceService(
                     minecraftInstance = FabricMinecraftInstance(MinecraftClient.getInstance()),
-                    playerInstance = FabricPlayerInstance(MinecraftClient.getInstance().player!!),
                     config = AimAssistanceConfig(
                         // common
                         fov = 60.0,

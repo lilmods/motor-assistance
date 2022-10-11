@@ -4,8 +4,7 @@ package dev.gallon.aimassistance.domain
 class AimAssistanceService(
     private val minecraftInstance: MinecraftInstance,
     private val playerInstance: PlayerInstance,
-    private val config: AimAssistanceConfig,
-    minecraftCallbacks: MinecraftCallbacks
+    private val config: AimAssistanceConfig
 ) {
 
     private var target: TargetInstance? = null
@@ -17,27 +16,25 @@ class AimAssistanceService(
 
     private var attackCount = 0
 
-    init {
-        minecraftCallbacks.onMouseClick {
-            attackCount += 1
-            if (attackCount == 1 && config.aimEntity) {
-                attackTimer.start()
-            } else if (attackCount > 1) {
-                // Calculate the number of attacks per milliseconds
-                val speed = attackCount.toFloat() / attackTimer.timeElapsed()
+    fun onMouseClick() {
+        attackCount += 1
+        if (attackCount == 1 && config.aimEntity) {
+            attackTimer.start()
+        } else if (attackCount > 1) {
+            // Calculate the number of attacks per milliseconds
+            val speed = attackCount.toFloat() / attackTimer.timeElapsed()
 
-                // If player's attack speed is greater than the speed given to toggle the assistance, then we can tell
-                // to the instance that the player is interacting
-                if (speed > config.attackInteractionSpeed) {
-                    miningTimer.stop()
+            // If player's attack speed is greater than the speed given to toggle the assistance, then we can tell
+            // to the instance that the player is interacting
+            if (speed > config.attackInteractionSpeed) {
+                miningTimer.stop()
 
-                    // We need to reset the variables that are used to define if the player is interacting because we know
-                    // that the user is interacting right now
-                    attackCount = 0
-                    attackTimer.stop()
-                    interactionTimer.start() // it will reset if already started, so we're all good
-                    interactingWith = TargetType.ENTITY
-                }
+                // We need to reset the variables that are used to define if the player is interacting because we know
+                // that the user is interacting right now
+                attackCount = 0
+                attackTimer.stop()
+                interactionTimer.start() // it will reset if already started, so we're all good
+                interactingWith = TargetType.ENTITY
             }
         }
     }
@@ -46,19 +43,19 @@ class AimAssistanceService(
      * This function analyses the player's environment to know what they're aiming at
      */
     fun analyseEnvironment() {
-        if (!minecraftInstance.isPlayerInGame()) return
+        if (!playerInstance.canInteract()) return
 
         when (interactingWith) {
-            TargetType.ENTITY -> minecraftInstance
-                .getEntitiesAroundPlayer(range = config.entityRange)
-                .let(minecraftInstance::getClosestEntityToPlayerAim)
+            TargetType.ENTITY -> playerInstance
+                .findMobsAroundPlayer(range = config.entityRange)
+                .let(playerInstance::getClosestEntityToPlayerAim)
                 ?.also { entity -> target = entity }
 
             TargetType.BLOCK -> minecraftInstance
                 .getPointedBlock(maxRange = config.blockRange)
                 ?.also { block -> target = block }
 
-            TargetType.NONE -> TODO()
+            TargetType.NONE -> {}
         }
     }
 
@@ -67,7 +64,7 @@ class AimAssistanceService(
      * be called (at least) at every game tick because it uses input events (attack key information).
      */
     fun analyseBehavior() {
-        if (!minecraftInstance.isPlayerInGame()) return
+        if (!playerInstance.canInteract()) return
 
         // Common
         val attackKeyPressed = minecraftInstance.attackKeyPressed()
@@ -117,7 +114,7 @@ class AimAssistanceService(
      * This function will move the player's aim. The faster this function is called, the smoother the aim assistance is.
      */
     fun assistIfPossible() {
-        if (!minecraftInstance.isPlayerInGame()) return
+        if (!playerInstance.canInteract()) return
         if (target == null) return
 
         if (interactingWith !== TargetType.NONE && target != null) {

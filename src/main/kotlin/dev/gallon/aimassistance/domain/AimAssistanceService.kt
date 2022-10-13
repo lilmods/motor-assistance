@@ -10,7 +10,6 @@ class AimAssistanceService(
     private val mouseInstance: MouseInstance,
     private val config: AimAssistanceConfig
 ) {
-
     private var target: TargetInstance? = null
     private var interactingWith: TargetType = TargetType.NONE
 
@@ -124,18 +123,17 @@ class AimAssistanceService(
 
         if (interactingWith != TargetType.NONE) {
             val aimForce = if (interactingWith === TargetType.BLOCK) config.miningAimForce else config.attackAimForce
-            val rotations = computeRotationsNeeded(
+            val rotation = computeRotationsNeeded(
                 minecraftInstance.getPlayer()!!,
                 target!!,
                 config.fov, config.fov,
                 Rotation(aimForce, aimForce)
             )
 
-
             // We need to prevent focusing another block while assisting if the player is not moving his mouse
             val assist = if (interactingWith === TargetType.BLOCK && !mouseInstance.wasMoved()) {
                 val nextBlock = minecraftInstance.getPlayer()!!.rayTrace(
-                    config.blockRange, minecraftInstance.getPlayer()!!.getEyesPosition(), rotations
+                    config.blockRange, minecraftInstance.getPlayer()!!.getEyesPosition(), rotation
                 )
 
                 // If, after moving the mouse, another block is focused, then don't assist
@@ -143,7 +141,9 @@ class AimAssistanceService(
                     if (target is BlockInstance) {
                         val next = nextBlock.getPosition()
                         val curr = target!!.getPosition()
-                        next.x == curr.x && next.y == curr.y && next.z == curr.z
+                        next.x.toInt() == curr.x.toInt()
+                                && next.y.toInt() == curr.y.toInt()
+                                && next.z.toInt() == curr.z.toInt()
                     } else {
                         false
                     }
@@ -157,7 +157,7 @@ class AimAssistanceService(
                 true
             }
 
-            if (assist) minecraftInstance.getPlayer()!!.setRotations(rotations)
+            if (assist) minecraftInstance.getPlayer()!!.setRotation(rotation)
         }
     }
 
@@ -242,12 +242,12 @@ class AimAssistanceService(
         // user-friendly. That way, instead of showing 0.05, we show 5.
         return source.getRotations()
             .run {
-                //if (inFovX && inFovY) {
+                if (inFovX && inFovY) {
                     copy(
                         yaw = yaw + ((wrapDegrees(rotation.yaw - yaw)) * step.yaw) / 100,
                         pitch = pitch + ((wrapDegrees(rotation.pitch - pitch)) * step.pitch) / 100
                     )
-                //} else this
+                } else this
             }
     }
 }

@@ -11,7 +11,7 @@ class FabricPlayerInstance(
     private val player: ClientPlayerEntity
 ) : FabricEntityInstance(player), PlayerInstance {
 
-    override fun setRotations(rotations: Rotation) {
+    override fun setRotation(rotations: Rotation) {
         player.pitch = rotations.pitch.toFloat()
         player.yaw = rotations.yaw.toFloat()
     }

@@ -11,7 +11,7 @@ interface EntityInstance : TargetInstance {
 }
 
 interface PlayerInstance : EntityInstance {
-    fun setRotations(rotations: Rotation)
+    fun setRotation(rotations: Rotation)
 
     /**
      * @return true if the player is in game and not in any GUIs

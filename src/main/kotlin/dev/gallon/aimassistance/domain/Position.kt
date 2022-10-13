@@ -11,4 +11,6 @@ data class Position(
             y = y - other.y,
             z = z - other.z
         )
+
+    override fun toString(): String = "$x;$y;$z"
 }

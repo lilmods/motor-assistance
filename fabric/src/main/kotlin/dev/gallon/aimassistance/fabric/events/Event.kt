@@ -2,9 +2,9 @@ package dev.gallon.aimassistance.fabric.events
 
 sealed interface Event
 
-class RenderEvent : Event
+object RenderEvent : Event
 
-class TickEvent : Event
+object TickEvent : Event
 
 class MouseMovedEvent(
     val x: Double,

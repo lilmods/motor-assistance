@@ -1,13 +1,13 @@
-package dev.gallon.aimassistance.fabric.infra
+package dev.gallon.aimassistance.fabric.adapters
 
-import dev.gallon.aimassistance.core.BlockInstance
-import dev.gallon.aimassistance.core.Position
+import dev.gallon.aimassistance.core.interfaces.Block
+import dev.gallon.aimassistance.core.domain.Position
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.Direction
 
-class FabricBlockInstance(
+class FabricBlockAdapter(
     private val block: BlockHitResult
-) : BlockInstance {
+) : Block {
     override fun getFacePosition(): Position = getPosition()
         .run {
             copy(

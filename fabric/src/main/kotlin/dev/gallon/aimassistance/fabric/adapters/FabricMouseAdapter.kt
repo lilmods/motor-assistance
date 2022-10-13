@@ -1,15 +1,15 @@
-package dev.gallon.aimassistance.fabric.infra
+package dev.gallon.aimassistance.fabric.adapters
 
-import dev.gallon.aimassistance.core.MouseInstance
+import dev.gallon.aimassistance.core.interfaces.Mouse
 import dev.gallon.aimassistance.fabric.events.MouseMovedEvent
 import dev.gallon.aimassistance.fabric.events.SingleEventBus
-import net.minecraft.client.Mouse
+import net.minecraft.client.Mouse as FabricMouse
 
-class FabricMouseInstance(
-    private val mouse: Mouse
-) : MouseInstance {
+class FabricMouseAdapter(
+    private val mouse: FabricMouse
+) : Mouse {
 
-    var mouseMoved = false
+    private var mouseMoved = false
 
     init {
         SingleEventBus.register<MouseMovedEvent> { mouseMoved = true }

@@ -14,11 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 class MinecraftClientMixin {
     @Inject(method = ["render(Z)V"], at = [At("HEAD")])
     private fun renderEvent(tick: Boolean, info: CallbackInfo) {
-        SingleEventBus.send(RenderEvent())
+        SingleEventBus.send(RenderEvent)
     }
 
     @Inject(method = ["tick()V"], at = [At("TAIL")])
     private fun tickEvent(info: CallbackInfo) {
-        SingleEventBus.send(TickEvent())
+        SingleEventBus.send(TickEvent)
     }
 }

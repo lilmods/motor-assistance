@@ -1,15 +1,19 @@
-package dev.gallon.aimassistance.fabric.infra
+package dev.gallon.aimassistance.fabric.adapters
 
-import dev.gallon.aimassistance.core.*
+import dev.gallon.aimassistance.core.domain.Position
+import dev.gallon.aimassistance.core.domain.Rotation
+import dev.gallon.aimassistance.core.interfaces.Block
+import dev.gallon.aimassistance.core.interfaces.Entity
+import dev.gallon.aimassistance.core.interfaces.Player
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.RaycastContext
 
-class FabricPlayerInstance(
+class FabricPlayerAdapter(
     private val player: ClientPlayerEntity
-) : FabricEntityInstance(player), PlayerInstance {
+) : FabricEntityAdapter(player), Player {
 
     override fun setRotation(rotations: Rotation) {
         player.pitch = rotations.pitch.toFloat()
@@ -18,7 +22,7 @@ class FabricPlayerInstance(
 
     override fun canInteract(): Boolean = player.canHit()
 
-    override fun findMobsAroundPlayer(range: Double): List<EntityInstance> =
+    override fun findMobsAroundPlayer(range: Double): List<Entity> =
         player
             .world
             ?.getEntitiesByClass(
@@ -32,11 +36,11 @@ class FabricPlayerInstance(
                     player.z + range,
                 )
             ) { true }
-            ?.map(::FabricEntityInstance)
+            ?.map(::FabricEntityAdapter)
             ?: emptyList()
 
 
-    override fun rayTrace(reach: Double, source: Position, direction: Rotation): BlockInstance? {
+    override fun rayTrace(reach: Double, source: Position, direction: Rotation): Block? {
         val f2 = MathHelper.cos((- direction.yaw * (Math.PI / 180.0) - Math.PI).toFloat())
         val f3 = MathHelper.sin((- direction.yaw * (Math.PI / 180.0) - Math.PI).toFloat())
         val f4 = - MathHelper.cos((- direction.pitch * (Math.PI / 180.0)).toFloat())
@@ -55,6 +59,6 @@ class FabricPlayerInstance(
                     player
                 )
             )
-            ?.let(::FabricBlockInstance)
+            ?.let(::FabricBlockAdapter)
     }
 }

@@ -1,7 +1,7 @@
-package dev.gallon.aimassistance.fabric.infra
+package dev.gallon.aimassistance.fabric.adapters
 
-import dev.gallon.aimassistance.core.Position
-import dev.gallon.aimassistance.core.Rotation
+import dev.gallon.aimassistance.core.domain.Position
+import dev.gallon.aimassistance.core.domain.Rotation
 import net.minecraft.util.math.Vec3d
 
 

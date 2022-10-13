@@ -1,8 +1,8 @@
-package dev.gallon.aimassistance.core
+package dev.gallon.aimassistance.core.interfaces
 
-interface MinecraftInstance {
+interface Minecraft {
 
-    fun getPlayer(): PlayerInstance?
+    fun getPlayer(): Player?
 
     /**
      * @return true if the attack key is being pressed
@@ -18,5 +18,5 @@ interface MinecraftInstance {
      * @param maxRange the maximum range between the player eyes and the block (unit: 1.0 = 1 block)
      * @return the block the user is looking at if there's one
      */
-    fun getPointedBlock(maxRange: Double): BlockInstance?
+    fun getPointedBlock(maxRange: Double): Block?
 }

@@ -1,4 +1,4 @@
-package dev.gallon.aimassistance.core
+package dev.gallon.aimassistance.core.domain
 
 data class AimAssistanceConfig(
     // common

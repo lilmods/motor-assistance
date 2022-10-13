@@ -1,20 +1,20 @@
-package dev.gallon.aimassistance.fabric.infra
+package dev.gallon.aimassistance.fabric.adapters
 
-import dev.gallon.aimassistance.core.BlockInstance
-import dev.gallon.aimassistance.core.MinecraftInstance
-import dev.gallon.aimassistance.core.PlayerInstance
+import dev.gallon.aimassistance.core.interfaces.Block
+import dev.gallon.aimassistance.core.interfaces.Minecraft
+import dev.gallon.aimassistance.core.interfaces.Player
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 
-class FabricMinecraftInstance(
+class FabricMinecraftAdapter(
     private val minecraft: MinecraftClient
-) : MinecraftInstance {
+) : Minecraft {
 
-    override fun getPlayer(): PlayerInstance? = minecraft
+    override fun getPlayer(): Player? = minecraft
         .player
-        ?.let(::FabricPlayerInstance)
+        ?.let(::FabricPlayerAdapter)
 
     override fun attackKeyPressed(): Boolean = // TODO
         minecraft.options.attackKey.isPressed
@@ -22,7 +22,7 @@ class FabricMinecraftInstance(
     override fun playerAimingMob(): Boolean =
         minecraft.targetedEntity is MobEntity
 
-    override fun getPointedBlock(maxRange: Double): BlockInstance? =
+    override fun getPointedBlock(maxRange: Double): Block? =
         minecraft
             .crosshairTarget
             ?.let { target ->
@@ -33,7 +33,7 @@ class FabricMinecraftInstance(
                             target.entity.eyePos.toPosition(),
                             target.entity.rotationVector.toRotation()
                         )
-                    is BlockHitResult -> FabricBlockInstance(target)
+                    is BlockHitResult -> FabricBlockAdapter(target)
                     else -> null
                 }
             }

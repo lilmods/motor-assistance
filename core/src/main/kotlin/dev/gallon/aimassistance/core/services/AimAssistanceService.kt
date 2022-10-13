@@ -1,16 +1,19 @@
-package dev.gallon.aimassistance.core
+package dev.gallon.aimassistance.core.services
 
+import dev.gallon.aimassistance.core.domain.*
+import dev.gallon.aimassistance.core.interfaces.*
+import dev.gallon.aimassistance.core.interfaces.Target
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.sqrt
 
 
 class AimAssistanceService(
-    private val minecraftInstance: MinecraftInstance,
-    private val mouseInstance: MouseInstance,
+    private val minecraft: Minecraft,
+    private val mouse: Mouse,
     private val config: AimAssistanceConfig
 ) {
-    private var target: TargetInstance? = null
+    private var target: Target? = null
     private var interactingWith: TargetType = TargetType.NONE
 
     private val interactionTimer = Timer() // Used to assist the player for a given amount of time
@@ -23,15 +26,15 @@ class AimAssistanceService(
      * This function analyses the player's environment to know what they're aiming at
      */
     fun analyseEnvironment() {
-        if (minecraftInstance.getPlayer()?.canInteract() != true) return
+        if (minecraft.getPlayer()?.canInteract() != true) return
 
         when (interactingWith) {
-            TargetType.ENTITY -> minecraftInstance.getPlayer()!!
+            TargetType.ENTITY -> minecraft.getPlayer()!!
                 .findMobsAroundPlayer(range = config.entityRange)
-                .let { entities -> computeClosestEntity(minecraftInstance.getPlayer()!!, entities) }
+                .let { entities -> computeClosestEntity(minecraft.getPlayer()!!, entities) }
                 ?.also { entity -> target = entity }
 
-            TargetType.BLOCK -> minecraftInstance
+            TargetType.BLOCK -> minecraft
                 .getPointedBlock(maxRange = config.blockRange)
                 ?.also { block -> target = block }
 
@@ -44,10 +47,10 @@ class AimAssistanceService(
      * be called (at least) at every game tick because it uses input events (attack key information).
      */
     fun analyseBehavior() {
-        if (minecraftInstance.getPlayer()?.canInteract() != true) return
+        if (minecraft.getPlayer()?.canInteract() != true) return
 
         // Common
-        val attackKeyPressed = minecraftInstance.attackKeyPressed()
+        val attackKeyPressed = minecraft.attackKeyPressed()
         val interactingWithEntity = this.interactingWith == TargetType.ENTITY
 
         // Mining
@@ -68,7 +71,7 @@ class AimAssistanceService(
         }
 
         // Attack detection
-        val wasLeftClicked = mouseInstance.wasLeftClicked()
+        val wasLeftClicked = mouse.wasLeftClicked()
 
         if (attackCount == 0 && wasLeftClicked && config.aimEntity) {
             attackCount += 1
@@ -114,27 +117,27 @@ class AimAssistanceService(
      * This function will move the player's aim. The faster this function is called, the smoother the aim assistance is.
      */
     fun assistIfPossible() {
-        if (minecraftInstance.getPlayer()?.canInteract() != true) return
+        if (minecraft.getPlayer()?.canInteract() != true) return
         if (target == null) return
 
         if (interactingWith != TargetType.NONE) {
             val aimForce = if (interactingWith === TargetType.BLOCK) config.miningAimForce else config.attackAimForce
             val rotation = computeRotationsNeeded(
-                minecraftInstance.getPlayer()!!,
+                minecraft.getPlayer()!!,
                 target!!,
                 config.fov, config.fov,
                 Rotation(aimForce, aimForce)
             )
 
             // We need to prevent focusing another block while assisting if the player is not moving his mouse
-            val assist = if (interactingWith === TargetType.BLOCK && !mouseInstance.wasMoved()) {
-                val nextBlock = minecraftInstance.getPlayer()!!.rayTrace(
-                    config.blockRange, minecraftInstance.getPlayer()!!.getEyesPosition(), rotation
+            val assist = if (interactingWith === TargetType.BLOCK && !mouse.wasMoved()) {
+                val nextBlock = minecraft.getPlayer()!!.rayTrace(
+                    config.blockRange, minecraft.getPlayer()!!.getEyesPosition(), rotation
                 )
 
                 // If, after moving the mouse, another block is focused, then don't assist
                 if (nextBlock != null && target != null) {
-                    if (target is BlockInstance) {
+                    if (target is Block) {
                         val next = nextBlock.getPosition()
                         val curr = target!!.getPosition()
                         next.x.toInt() == curr.x.toInt()
@@ -148,13 +151,13 @@ class AimAssistanceService(
                 }
             } else if (interactingWith == TargetType.ENTITY) {
                 // Don't assist if the option to stop when reached is on AND if the player is currently aiming at a mob
-                if (config.stopAttackOnReached) !minecraftInstance.playerAimingMob()
+                if (config.stopAttackOnReached) !minecraft.playerAimingMob()
                 else true
             } else {
                 true
             }
 
-            if (assist) minecraftInstance.getPlayer()!!.setRotation(rotation)
+            if (assist) minecraft.getPlayer()!!.setRotation(rotation)
         }
     }
 
@@ -163,7 +166,7 @@ class AimAssistanceService(
      * @param entities
      * @return the closest entity from the source point of view. Null if the entities list is empty.
      */
-    private fun computeClosestEntity(source: EntityInstance, entities: List<EntityInstance>): EntityInstance? = entities
+    private fun computeClosestEntity(source: Entity, entities: List<Entity>): Entity? = entities
         .map { entity -> entity to computeSmallestRotationBetween(source, entity) }
         .minByOrNull { (_, rotation) ->
             val distYaw = abs(wrapDegrees(rotation.yaw - source.getRotations().yaw))
@@ -178,7 +181,7 @@ class AimAssistanceService(
      * @param target
      * @return minimum rotation required to aim the target from the source point of view.
      */
-    private fun computeSmallestRotationBetween(source: EntityInstance, target: EntityInstance): Rotation =
+    private fun computeSmallestRotationBetween(source: Entity, target: Entity): Rotation =
         listOf(0.0, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0)
             .map { factor ->
                 computeRotationBetween(
@@ -220,16 +223,16 @@ class AimAssistanceService(
      * @return Rotation
      */
     private fun computeRotationsNeeded(
-        source: EntityInstance,
-        target: TargetInstance,
+        source: Entity,
+        target: Target,
         fovX: Double,
         fovY: Double,
         step: Rotation,
     ): Rotation {
 
         val rotation = when (target) {
-            is BlockInstance -> computeRotationBetween(source.getEyesPosition(), target.getFacePosition())
-            is EntityInstance -> computeSmallestRotationBetween(source, target)
+            is Block -> computeRotationBetween(source.getEyesPosition(), target.getFacePosition())
+            is Entity -> computeSmallestRotationBetween(source, target)
         }
 
         // We check if the entity is within the FOV of the player

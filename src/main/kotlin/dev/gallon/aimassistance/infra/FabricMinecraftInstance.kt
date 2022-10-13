@@ -1,15 +1,12 @@
 package dev.gallon.aimassistance.infra
 
-import dev.gallon.aimassistance.domain.*
+import dev.gallon.aimassistance.domain.BlockInstance
+import dev.gallon.aimassistance.domain.MinecraftInstance
+import dev.gallon.aimassistance.domain.PlayerInstance
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
-import net.minecraft.util.hit.HitResult
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.RaycastContext
-import kotlin.math.cos
-import kotlin.math.sin
 
 class FabricMinecraftInstance(
     private val minecraft: MinecraftClient

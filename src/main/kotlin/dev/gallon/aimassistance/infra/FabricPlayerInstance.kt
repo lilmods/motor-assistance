@@ -4,8 +4,8 @@ import dev.gallon.aimassistance.domain.*
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.MathHelper
 import net.minecraft.world.RaycastContext
-import kotlin.math.*
 
 class FabricPlayerInstance(
     private val player: ClientPlayerEntity
@@ -37,10 +37,10 @@ class FabricPlayerInstance(
 
 
     override fun rayTrace(reach: Double, source: Position, direction: Rotation): BlockInstance? {
-        val f2 = cos(- direction.yaw * (Math.PI / 180.0) - Math.PI)
-        val f3 = sin(- direction.yaw * (Math.PI / 180.0) - Math.PI)
-        val f4 = - cos(- direction.pitch * (Math.PI / 180.0))
-        val f5 = sin(- direction.pitch * (Math.PI / 180.0))
+        val f2 = MathHelper.cos((- direction.yaw * (Math.PI / 180.0) - Math.PI).toFloat())
+        val f3 = MathHelper.sin((- direction.yaw * (Math.PI / 180.0) - Math.PI).toFloat())
+        val f4 = - MathHelper.cos((- direction.pitch * (Math.PI / 180.0)).toFloat())
+        val f5 = MathHelper.sin((- direction.pitch * (Math.PI / 180.0)).toFloat())
         val f6 = f3 * f4
         val f7 = f2 * f4
         val vector = source.toVec3d().add(f6 * reach, f5 * reach, f7 * reach)

@@ -9,11 +9,11 @@ open class FabricEntityInstance(
     private val entity: Entity
 ) : EntityInstance {
     override fun getEyesHeight(): Double = with(entity) {
-        y + eyeY
+        getEyeHeight(pose).toDouble()
     }
 
-    override fun getRotations(): Rotation = with(entity.rotationVector) {
-        Rotation(yaw = y, pitch = x)
+    override fun getRotations(): Rotation = with(entity) {
+        Rotation(yaw = yaw.toDouble(), pitch = pitch.toDouble())
     }
 
     override fun getPosition(): Position = with(entity) {

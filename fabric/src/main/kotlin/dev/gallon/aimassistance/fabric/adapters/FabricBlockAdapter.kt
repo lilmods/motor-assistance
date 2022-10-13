@@ -1,7 +1,7 @@
 package dev.gallon.aimassistance.fabric.adapters
 
-import dev.gallon.aimassistance.core.interfaces.Block
 import dev.gallon.aimassistance.core.domain.Position
+import dev.gallon.aimassistance.core.interfaces.Block
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.Direction
 
@@ -28,7 +28,7 @@ class FabricBlockAdapter(
             }
         }
 
-    override fun getPosition(): Position = with(block.pos) {
-        Position(x = x, y = y, z = z)
+    override fun getPosition(): Position = with(block.blockPos) {
+        Position(x = x.toDouble(), y = y.toDouble(), z = z.toDouble())
     }
 }

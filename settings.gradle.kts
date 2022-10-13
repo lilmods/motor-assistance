@@ -18,3 +18,6 @@ pluginManagement {
                 .split("+")[0] // Ensures sentences like `+build.1` are ignored
     }
 }
+
+include("core")
+include("fabric")

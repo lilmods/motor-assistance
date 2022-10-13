@@ -15,6 +15,7 @@ data class AimAssistanceConfig(
     val aimEntity: Boolean,
     val entityRange: Double,
     val attackInteractionSpeed: Long,
+    val attackInteractionDuration: Long,
     val attackAssistanceDuration: Long,
     val attackAimForce: Double,
     val stopAttackOnReached: Boolean

@@ -12,7 +12,7 @@ import net.minecraft.client.MinecraftClient
 
 class AimAssistance : ModInitializer {
 
-    var aimAssistance: AimAssistanceService? = null
+    private var aimAssistance: AimAssistanceService? = null
 
     override fun onInitialize() {
         SingleEventBus.register<TickEvent> {
@@ -25,15 +25,16 @@ class AimAssistance : ModInitializer {
                         fov = 60.0,
                         // block
                         aimBlock = true,
-                        blockRange = 5.0,
-                        miningInteractionDuration = 1000,
-                        miningAssistanceDuration = 5000,
+                        blockRange = 7.0,
+                        miningInteractionDuration = 500,
+                        miningAssistanceDuration = 300,
                         miningAimForce = 2.5,
                         // entity
                         aimEntity = true,
                         entityRange = 5.0,
-                        attackInteractionSpeed = 2000,
-                        attackAssistanceDuration = 5000,
+                        attackInteractionSpeed = 1/1000,
+                        attackInteractionDuration = 2000,
+                        attackAssistanceDuration = 1700,
                         attackAimForce = 4.0,
                         stopAttackOnReached = false,
                     )

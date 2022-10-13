@@ -49,7 +49,6 @@ class AimAssistanceService(
         // Common
         val attackKeyPressed = minecraftInstance.attackKeyPressed()
         val interactingWithEntity = this.interactingWith == TargetType.ENTITY
-        val interactingWithBlock = this.interactingWith == TargetType.BLOCK
 
         // Mining
         val playerMiningTimerElapsed = this.miningTimer.timeElapsed(config.miningInteractionDuration)
@@ -69,33 +68,30 @@ class AimAssistanceService(
         }
 
         // Attack detection
-        if (mouseInstance.wasLeftClicked()) {
+        val wasLeftClicked = mouseInstance.wasLeftClicked()
+
+        if (attackCount == 0 && wasLeftClicked && config.aimEntity) {
             attackCount += 1
-            if (attackCount == 1 && config.aimEntity) {
-                attackTimer.start()
-            } else if (attackCount > 1) {
-                // Calculate the number of attacks per milliseconds
-                val speed = attackCount / attackTimer.timeElapsed()
+            attackTimer.start()
+        } else if (attackCount > 0 && wasLeftClicked) {
+            attackCount += 1
 
-                // If player's attack speed is greater than the speed given to toggle the assistance, then we can tell
-                // to the instance that the player is interacting
-                if (speed > config.attackInteractionSpeed) {
-                    miningTimer.stop()
+            // Calculate the number of attacks per milliseconds
+            val speed = attackCount.toDouble() / attackTimer.timeElapsed().toDouble()
 
-                    // We need to reset the variables that are used to define if the player is interacting because we know
-                    // that the user is interacting right now
-                    attackCount = 0
-                    attackTimer.stop()
-                    interactionTimer.start() // it will reset if already started, so we're all good
-                    interactingWith = TargetType.ENTITY
-                }
+            if (speed > config.attackInteractionSpeed) {
+                miningTimer.stop()
+
+                // We need to reset the variables that are used to define if the player is interacting because we know
+                // that the user is interacting right now
+                attackCount = 0
+                attackTimer.stop()
+                interactionTimer.start() // it will reset if already started, so we're all good
+                interactingWith = TargetType.ENTITY
             }
-        }
-
-        // Attack
-        if (!attackTimer.stopped() && attackTimer.timeElapsed(config.attackInteractionSpeed) && !interactingWithBlock) {
+        } else if (attackTimer.timeElapsed(config.attackInteractionDuration)) {
             this.attackTimer.stop()
-            this.attackCount = 0
+            attackCount = 0
         }
 
         // Common
@@ -152,7 +148,8 @@ class AimAssistanceService(
                 }
             } else if (interactingWith == TargetType.ENTITY) {
                 // Don't assist if the option to stop when reached is on AND if the player is currently aiming at a mob
-                !(config.stopAttackOnReached && minecraftInstance.playerAimingMob())
+                if (config.stopAttackOnReached) !minecraftInstance.playerAimingMob()
+                else true
             } else {
                 true
             }
@@ -184,14 +181,20 @@ class AimAssistanceService(
     private fun computeSmallestRotationBetween(source: EntityInstance, target: EntityInstance): Rotation =
         listOf(0.0, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0)
             .map { factor ->
-                // The factor is used to aim different parts of the target. 0 means the legs, while 1.0 the eyes
-
                 computeRotationBetween(
                     source.getEyesPosition(),
                     target.getPosition().run { copy(y = y + target.getEyesHeight() * factor) }
                 )
             }
-            .minBy { rotation -> abs(rotation.yaw) + abs(rotation.pitch) }
+            .minBy { rotation ->
+                // pitchToAdd & yawToAdd is the rotation to add to the source to target the given point, we want the
+                // closest point from where the source is looking at, so we take the smallest distance that the eyes
+                // have to move
+                val pitchToAdd = wrapDegrees(rotation.pitch - source.getRotations().pitch)
+                val yawToAdd = wrapDegrees(rotation.yaw - source.getRotations().yaw)
+
+                sqrt(pitchToAdd*pitchToAdd + yawToAdd*yawToAdd)
+            }
 
     /**
      * @param source
@@ -203,7 +206,7 @@ class AimAssistanceService(
             val dist = sqrt(diff.x * diff.x + diff.z * diff.z)
 
             Rotation(
-                pitch = - (atan2(diff.y, dist) * 180.0 / Math.PI),
+                pitch = -(atan2(diff.y, dist) * 180.0 / Math.PI),
                 yaw = (atan2(diff.z, diff.x) * 180.0 / Math.PI) - 90.0,
             )
         }

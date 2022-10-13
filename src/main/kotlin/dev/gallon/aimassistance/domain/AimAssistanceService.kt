@@ -7,6 +7,7 @@ import kotlin.math.sqrt
 
 class AimAssistanceService(
     private val minecraftInstance: MinecraftInstance,
+    private val mouseInstance: MouseInstance,
     private val config: AimAssistanceConfig
 ) {
 
@@ -18,29 +19,6 @@ class AimAssistanceService(
     private val attackTimer = Timer() // Used to detect that a player is attacking
 
     private var attackCount = 0
-
-    fun onMouseClick() {
-        attackCount += 1
-        if (attackCount == 1 && config.aimEntity) {
-            attackTimer.start()
-        } else if (attackCount > 1) {
-            // Calculate the number of attacks per milliseconds
-            val speed = attackCount.toFloat() / attackTimer.timeElapsed()
-
-            // If player's attack speed is greater than the speed given to toggle the assistance, then we can tell
-            // to the instance that the player is interacting
-            if (speed > config.attackInteractionSpeed) {
-                miningTimer.stop()
-
-                // We need to reset the variables that are used to define if the player is interacting because we know
-                // that the user is interacting right now
-                attackCount = 0
-                attackTimer.stop()
-                interactionTimer.start() // it will reset if already started, so we're all good
-                interactingWith = TargetType.ENTITY
-            }
-        }
-    }
 
     /**
      * This function analyses the player's environment to know what they're aiming at
@@ -91,6 +69,30 @@ class AimAssistanceService(
             this.interactingWith = TargetType.BLOCK
         }
 
+        // Attack detection
+        if (mouseInstance.wasLeftClicked()) {
+            attackCount += 1
+            if (attackCount == 1 && config.aimEntity) {
+                attackTimer.start()
+            } else if (attackCount > 1) {
+                // Calculate the number of attacks per milliseconds
+                val speed = attackCount / attackTimer.timeElapsed()
+
+                // If player's attack speed is greater than the speed given to toggle the assistance, then we can tell
+                // to the instance that the player is interacting
+                if (speed > config.attackInteractionSpeed) {
+                    miningTimer.stop()
+
+                    // We need to reset the variables that are used to define if the player is interacting because we know
+                    // that the user is interacting right now
+                    attackCount = 0
+                    attackTimer.stop()
+                    interactionTimer.start() // it will reset if already started, so we're all good
+                    interactingWith = TargetType.ENTITY
+                }
+            }
+        }
+
         // Attack
         if (!attackTimer.stopped() && attackTimer.timeElapsed(config.attackInteractionSpeed) && !interactingWithBlock) {
             this.attackTimer.stop()
@@ -120,7 +122,7 @@ class AimAssistanceService(
         if (minecraftInstance.getPlayer()?.canInteract() != true) return
         if (target == null) return
 
-        if (interactingWith !== TargetType.NONE && target != null) {
+        if (interactingWith != TargetType.NONE) {
             val aimForce = if (interactingWith === TargetType.BLOCK) config.miningAimForce else config.attackAimForce
             val rotations = computeRotationsNeeded(
                 minecraftInstance.getPlayer()!!,
@@ -128,37 +130,43 @@ class AimAssistanceService(
                 config.fov, config.fov,
                 Rotation(aimForce, aimForce)
             )
-            var assist = true
+
 
             // We need to prevent focusing another block while assisting if the player is not moving his mouse
             val mouseMoved = false // TODO: find a way to do that
-
-            if (interactingWith === TargetType.BLOCK && !mouseMoved) {
+            val assist = if (interactingWith === TargetType.BLOCK && !mouseMoved) {
                 val nextBlock = minecraftInstance.getPlayer()!!.rayTrace(
                     config.blockRange, minecraftInstance.getPlayer()!!.getEyesPosition(), rotations
                 )
 
                 // If, after moving the mouse, another block is focused, then don't assist
                 if (nextBlock != null && target != null) {
-                    assist =
-                        if (target is BlockInstance) {
-                            val next = nextBlock.getPosition()
-                            val curr = target!!.getPosition()
-                            next.x == curr.x && next.y == curr.y && next.z == curr.z
-                        } else {
-                            false
-                        }
+                    if (target is BlockInstance) {
+                        val next = nextBlock.getPosition()
+                        val curr = target!!.getPosition()
+                        next.x == curr.x && next.y == curr.y && next.z == curr.z
+                    } else {
+                        false
+                    }
+                } else {
+                    false
                 }
+            } else if (interactingWith == TargetType.ENTITY) {
+                // Don't assist if the option to stop when reached is on AND if the player is currently aiming at a mob
+                !(config.stopAttackOnReached && minecraftInstance.playerAimingMob())
+            } else {
+                true
             }
 
-            // Don't assist if the option to stop when reached is on AND if the player is currently aiming at a mob
-            if (interactingWith === TargetType.ENTITY) {
-                assist = !(config.stopAttackOnReached && minecraftInstance.playerAimingMob())
-            }
             if (assist) minecraftInstance.getPlayer()!!.setRotations(rotations)
         }
     }
 
+    /**
+     * @param source
+     * @param entities
+     * @return the closest entity from the source point of view. Null if the entities list is empty.
+     */
     private fun computeClosestEntity(source: EntityInstance, entities: List<EntityInstance>): EntityInstance? = entities
         .map { entity -> entity to computeSmallestRotationBetween(source, entity) }
         .minByOrNull { (_, rotation) ->

@@ -133,8 +133,7 @@ class AimAssistanceService(
 
 
             // We need to prevent focusing another block while assisting if the player is not moving his mouse
-            val mouseMoved = false // TODO: find a way to do that
-            val assist = if (interactingWith === TargetType.BLOCK && !mouseMoved) {
+            val assist = if (interactingWith === TargetType.BLOCK && !mouseInstance.wasMoved()) {
                 val nextBlock = minecraftInstance.getPlayer()!!.rayTrace(
                     config.blockRange, minecraftInstance.getPlayer()!!.getEyesPosition(), rotations
                 )
@@ -149,7 +148,7 @@ class AimAssistanceService(
                         false
                     }
                 } else {
-                    false
+                    true
                 }
             } else if (interactingWith == TargetType.ENTITY) {
                 // Don't assist if the option to stop when reached is on AND if the player is currently aiming at a mob
@@ -204,8 +203,8 @@ class AimAssistanceService(
             val dist = sqrt(diff.x * diff.x + diff.z * diff.z)
 
             Rotation(
-                pitch = (atan2(diff.z, diff.x) * 180.0 / Math.PI) - 90.0,
-                yaw = - (atan2(diff.y, dist) * 180.0 / Math.PI),
+                pitch = - (atan2(diff.y, dist) * 180.0 / Math.PI),
+                yaw = (atan2(diff.z, diff.x) * 180.0 / Math.PI) - 90.0,
             )
         }
 
@@ -245,8 +244,8 @@ class AimAssistanceService(
             .run {
                 if (inFovX && inFovY) {
                     copy(
-                        yaw = yaw + ((Math.toDegrees(yaw - source.getRotations().yaw)) * step.yaw) / 100,
-                        pitch = pitch + ((Math.toDegrees(pitch - source.getRotations().pitch)) * step.pitch) / 100
+                        yaw = yaw + ((Math.toDegrees(rotation.yaw - source.getRotations().yaw)) * step.yaw) / 100,
+                        pitch = pitch + ((Math.toDegrees(rotation.pitch - source.getRotations().pitch)) * step.pitch) / 100
                     )
                 } else this
             }

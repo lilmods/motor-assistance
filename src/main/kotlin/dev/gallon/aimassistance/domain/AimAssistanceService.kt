@@ -169,8 +169,8 @@ class AimAssistanceService(
     private fun computeClosestEntity(source: EntityInstance, entities: List<EntityInstance>): EntityInstance? = entities
         .map { entity -> entity to computeSmallestRotationBetween(source, entity) }
         .minByOrNull { (_, rotation) ->
-            val distYaw = abs(Math.toDegrees(rotation.yaw - source.getRotations().yaw))
-            val distPitch = abs(Math.toDegrees(rotation.pitch - source.getRotations().pitch))
+            val distYaw = abs(wrapDegrees(rotation.yaw - source.getRotations().yaw))
+            val distPitch = abs(wrapDegrees(rotation.pitch - source.getRotations().pitch))
 
             sqrt(distYaw * distYaw + distPitch * distPitch)
         }
@@ -230,11 +230,11 @@ class AimAssistanceService(
         }
 
         // We check if the entity is within the FOV of the player
-        // yaw and pitch are absolute, not relative to anything. We fix that by calling wrapDegrees and subtracting
+        // yaw and pitch are MathHelper.absolute, not relative to anything. We fix that by calling wrapDegrees and subtracting
         // the yaw & pitch to the player's rotation. Now, the yaw, and the pitch are relative to the player's view
         // So we can compare that with the given fov: radiusX, and radiusY (which are both in degrees)
-        val inFovX = abs(Math.toDegrees(rotation.yaw - source.getRotations().yaw)) * step.yaw <= fovX
-        val inFovY = abs(Math.toDegrees(rotation.pitch - source.getRotations().pitch)) * step.pitch <= fovY
+        val inFovX = abs(wrapDegrees(rotation.pitch - source.getRotations().pitch)) * step.pitch <= fovX
+        val inFovY = abs(wrapDegrees(rotation.yaw - source.getRotations().yaw)) * step.yaw <= fovY
 
         // If the targeted entity is within the fov, then, we will compute the step in yaw / pitch of the player's view
         // to get closer to the targeted entity. We will use the given stepX and stepY to compute that. Dividing by 100
@@ -242,12 +242,16 @@ class AimAssistanceService(
         // user-friendly. That way, instead of showing 0.05, we show 5.
         return source.getRotations()
             .run {
-                if (inFovX && inFovY) {
+                //if (inFovX && inFovY) {
                     copy(
-                        yaw = yaw + ((Math.toDegrees(rotation.yaw - source.getRotations().yaw)) * step.yaw) / 100,
-                        pitch = pitch + ((Math.toDegrees(rotation.pitch - source.getRotations().pitch)) * step.pitch) / 100
+                        yaw = yaw + ((wrapDegrees(rotation.yaw - yaw)) * step.yaw) / 100,
+                        pitch = pitch + ((wrapDegrees(rotation.pitch - pitch)) * step.pitch) / 100
                     )
-                } else this
+                //} else this
             }
     }
 }
+
+fun wrapDegrees(degrees: Double): Double = (degrees % 360.0)
+    .let { if (it >= 180.0) it - 360 else it }
+    .let { if (it < -180.0) it + 360 else it }

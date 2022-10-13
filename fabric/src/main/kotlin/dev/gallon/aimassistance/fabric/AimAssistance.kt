@@ -25,7 +25,7 @@ class AimAssistance : ModInitializer {
             if (aimAssistance == null && MinecraftClient.getInstance().player != null) {
                 aimAssistance = AimAssistanceService(
                     minecraft = FabricMinecraftAdapter(MinecraftClient.getInstance()),
-                    mouse = FabricMouseAdapter(MinecraftClient.getInstance().mouse),
+                    mouse = FabricMouseAdapter(),
                     config = config.config
                 )
             } else if (aimAssistance != null) {

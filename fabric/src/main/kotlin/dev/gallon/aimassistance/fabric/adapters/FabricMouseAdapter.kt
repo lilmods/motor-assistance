@@ -1,21 +1,21 @@
 package dev.gallon.aimassistance.fabric.adapters
 
 import dev.gallon.aimassistance.core.interfaces.Mouse
-import dev.gallon.aimassistance.fabric.events.MouseMovedEvent
+import dev.gallon.aimassistance.fabric.events.LeftMouseClickEvent
+import dev.gallon.aimassistance.fabric.events.MouseMoveEvent
 import dev.gallon.aimassistance.fabric.events.SingleEventBus
-import net.minecraft.client.Mouse as FabricMouse
 
-class FabricMouseAdapter(
-    private val mouse: FabricMouse
-) : Mouse {
+class FabricMouseAdapter: Mouse {
 
-    private var mouseMoved = false
+    private var moved = false
+    private var leftClicked = false
 
     init {
-        SingleEventBus.register<MouseMovedEvent> { mouseMoved = true }
+        SingleEventBus.register<MouseMoveEvent> { moved = true }
+        SingleEventBus.register<LeftMouseClickEvent> { leftClicked = true }
     }
 
-    override fun wasLeftClicked(): Boolean = mouse.wasLeftButtonClicked()
+    override fun wasLeftClicked(): Boolean = leftClicked.also { leftClicked = false }
 
-    override fun wasMoved(): Boolean = mouseMoved.also { mouseMoved = false }
+    override fun wasMoved(): Boolean = moved.also { moved = false }
 }

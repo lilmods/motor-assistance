@@ -51,23 +51,23 @@ class AimAssistanceService(
 
         // Common
         val attackKeyPressed = minecraft.attackKeyPressed()
-        val interactingWithEntity = this.interactingWith == TargetType.ENTITY
+        val interactingWithEntity = interactingWith == TargetType.ENTITY
 
         // Mining
-        val playerMiningTimerElapsed = this.miningTimer.timeElapsed(config.miningInteractionDuration)
+        val playerMiningTimerElapsed = miningTimer.timeElapsed(config.miningInteractionDuration)
 
         if (miningTimer.stopped() && attackKeyPressed && config.aimBlock && !interactingWithEntity) {
             // If the player wasn't doing anything, and is pressing the attack key (= mining), then start the timer
             miningTimer.start()
-        } else if (!playerMiningTimerElapsed && !attackKeyPressed && !interactingWithEntity) {
+        } else if (!miningTimer.stopped() && !playerMiningTimerElapsed && !attackKeyPressed && !interactingWithEntity) {
             // Else (means that the player is mining) - if the player stopped mining during the timer, then stop it
-            this.miningTimer.stop()
+            miningTimer.stop()
         } else if (playerMiningTimerElapsed && attackKeyPressed) {
             // Else (means that the player is mining) - if the timer is elapsed, then the player is mining
-            this.attackTimer.stop()
-            this.miningTimer.stop()
-            this.interactionTimer.start()
-            this.interactingWith = TargetType.BLOCK
+            attackTimer.stop()
+            miningTimer.stop()
+            interactionTimer.start()
+            interactingWith = TargetType.BLOCK
         }
 
         // Attack detection
@@ -80,7 +80,7 @@ class AimAssistanceService(
             attackCount += 1
 
             // Calculate the number of attacks per seconds
-            val speed = attackCount.toDouble() / attackTimer.timeElapsed().toDouble() * 1000
+            val speed = (attackCount.toDouble() - 1) / config.attackInteractionDuration.toDouble() * 1000
 
             if (speed > config.attackInteractionSpeed) {
                 miningTimer.stop()

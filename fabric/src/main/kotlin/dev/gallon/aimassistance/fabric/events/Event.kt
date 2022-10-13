@@ -6,7 +6,9 @@ object RenderEvent : Event
 
 object TickEvent : Event
 
-class MouseMovedEvent(
+class MouseMoveEvent(
     val x: Double,
     val y: Double
 ): Event
+
+object LeftMouseClickEvent : Event

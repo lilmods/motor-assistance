@@ -25,14 +25,14 @@ class AimAssistance : ModInitializer {
                         // block
                         aimBlock = true,
                         blockRange = 5.0,
-                        miningInteractionDuration = 1,
-                        miningAssistanceDuration = 5,
+                        miningInteractionDuration = 1000,
+                        miningAssistanceDuration = 5000,
                         miningAimForce = 2.5,
                         // entity
                         aimEntity = true,
                         entityRange = 5.0,
-                        attackInteractionSpeed = 2,
-                        attackAssistanceDuration = 5,
+                        attackInteractionSpeed = 2000,
+                        attackAssistanceDuration = 5000,
                         attackAimForce = 4.0,
                         stopAttackOnReached = false,
                     )

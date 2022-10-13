@@ -23,6 +23,9 @@
         "adapter": "kotlin",
         "value": "dev.gallon.aimassistance.fabric.AimAssistance"
       }
+    ],
+    "modmenu": [
+      "dev.gallon.aimassistance.fabric.config.ModMenu"
     ]
   },
   "mixins": [

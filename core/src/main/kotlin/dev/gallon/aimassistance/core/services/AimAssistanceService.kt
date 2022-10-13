@@ -79,8 +79,8 @@ class AimAssistanceService(
         } else if (attackCount > 0 && wasLeftClicked) {
             attackCount += 1
 
-            // Calculate the number of attacks per milliseconds
-            val speed = attackCount.toDouble() / attackTimer.timeElapsed().toDouble()
+            // Calculate the number of attacks per seconds
+            val speed = attackCount.toDouble() / attackTimer.timeElapsed().toDouble() * 1000
 
             if (speed > config.attackInteractionSpeed) {
                 miningTimer.stop()

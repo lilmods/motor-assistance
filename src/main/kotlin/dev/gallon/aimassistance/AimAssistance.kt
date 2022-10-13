@@ -3,6 +3,7 @@ package dev.gallon.aimassistance
 import dev.gallon.aimassistance.domain.AimAssistanceConfig
 import dev.gallon.aimassistance.domain.AimAssistanceService
 import dev.gallon.aimassistance.infra.FabricMinecraftInstance
+import dev.gallon.aimassistance.infra.FabricMouseInstance
 import dev.gallon.aimassistance.infra.events.SingleEventBus
 import dev.gallon.aimassistance.infra.events.TickEvent
 import net.fabricmc.api.ModInitializer
@@ -17,6 +18,7 @@ class AimAssistance : ModInitializer {
             if (aimAssistance == null && MinecraftClient.getInstance().player != null) {
                 aimAssistance = AimAssistanceService(
                     minecraftInstance = FabricMinecraftInstance(MinecraftClient.getInstance()),
+                    mouseInstance = FabricMouseInstance(MinecraftClient.getInstance().mouse),
                     config = AimAssistanceConfig(
                         // common
                         fov = 60.0,
@@ -36,17 +38,10 @@ class AimAssistance : ModInitializer {
                     )
                 )
             } else if (aimAssistance != null) {
-                if (MinecraftClient.getInstance().options.attackKey.isPressed) {
-                    aimAssistance!!.onMouseClick()
-                }
-
                 aimAssistance!!.analyseEnvironment()
                 aimAssistance!!.analyseBehavior()
                 aimAssistance!!.assistIfPossible()
             }
         }
-
     }
-
-
 }

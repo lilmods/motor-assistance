@@ -1,4 +1,4 @@
-package dev.gallon.aimassistance.fabric.infra.events
+package dev.gallon.aimassistance.fabric.events
 
 import kotlin.reflect.KClass
 

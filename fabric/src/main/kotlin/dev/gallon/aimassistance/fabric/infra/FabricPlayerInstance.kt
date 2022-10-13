@@ -1,6 +1,6 @@
 package dev.gallon.aimassistance.fabric.infra
 
-import dev.gallon.aimassistance.fabric.domain.*
+import dev.gallon.aimassistance.core.*
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.util.math.Box

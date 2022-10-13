@@ -1,8 +1,8 @@
 package dev.gallon.aimassistance.fabric.infra
 
-import dev.gallon.aimassistance.fabric.domain.MouseInstance
-import dev.gallon.aimassistance.fabric.infra.events.MouseMovedEvent
-import dev.gallon.aimassistance.fabric.infra.events.SingleEventBus
+import dev.gallon.aimassistance.core.MouseInstance
+import dev.gallon.aimassistance.fabric.events.MouseMovedEvent
+import dev.gallon.aimassistance.fabric.events.SingleEventBus
 import net.minecraft.client.Mouse
 
 class FabricMouseInstance(

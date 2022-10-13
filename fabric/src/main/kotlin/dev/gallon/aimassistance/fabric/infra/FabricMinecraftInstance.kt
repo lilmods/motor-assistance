@@ -1,8 +1,8 @@
 package dev.gallon.aimassistance.fabric.infra
 
-import dev.gallon.aimassistance.fabric.domain.BlockInstance
-import dev.gallon.aimassistance.fabric.domain.MinecraftInstance
-import dev.gallon.aimassistance.fabric.domain.PlayerInstance
+import dev.gallon.aimassistance.core.BlockInstance
+import dev.gallon.aimassistance.core.MinecraftInstance
+import dev.gallon.aimassistance.core.PlayerInstance
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.util.hit.BlockHitResult

@@ -1,12 +1,12 @@
 package dev.gallon.aimassistance.fabric
 
-import dev.gallon.aimassistance.fabric.domain.AimAssistanceConfig
-import dev.gallon.aimassistance.fabric.domain.AimAssistanceService
+import dev.gallon.aimassistance.core.AimAssistanceConfig
+import dev.gallon.aimassistance.core.AimAssistanceService
 import dev.gallon.aimassistance.fabric.infra.FabricMinecraftInstance
 import dev.gallon.aimassistance.fabric.infra.FabricMouseInstance
-import dev.gallon.aimassistance.fabric.infra.events.RenderEvent
-import dev.gallon.aimassistance.fabric.infra.events.SingleEventBus
-import dev.gallon.aimassistance.fabric.infra.events.TickEvent
+import dev.gallon.aimassistance.fabric.events.RenderEvent
+import dev.gallon.aimassistance.fabric.events.SingleEventBus
+import dev.gallon.aimassistance.fabric.events.TickEvent
 import net.fabricmc.api.ModInitializer
 import net.minecraft.client.MinecraftClient
 

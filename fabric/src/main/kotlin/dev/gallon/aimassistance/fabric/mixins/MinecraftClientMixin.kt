@@ -1,8 +1,8 @@
-package dev.gallon.aimassistance.fabric.infra.mixins
+package dev.gallon.aimassistance.fabric.mixins
 
-import dev.gallon.aimassistance.fabric.infra.events.RenderEvent
-import dev.gallon.aimassistance.fabric.infra.events.SingleEventBus
-import dev.gallon.aimassistance.fabric.infra.events.TickEvent
+import dev.gallon.aimassistance.fabric.events.RenderEvent
+import dev.gallon.aimassistance.fabric.events.SingleEventBus
+import dev.gallon.aimassistance.fabric.events.TickEvent
 import net.minecraft.client.MinecraftClient
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.injection.At

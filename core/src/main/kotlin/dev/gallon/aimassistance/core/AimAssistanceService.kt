@@ -1,4 +1,4 @@
-package dev.gallon.aimassistance.fabric.domain
+package dev.gallon.aimassistance.core
 
 import kotlin.math.abs
 import kotlin.math.atan2

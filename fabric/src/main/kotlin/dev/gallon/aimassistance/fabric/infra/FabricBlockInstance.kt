@@ -1,7 +1,7 @@
 package dev.gallon.aimassistance.fabric.infra
 
-import dev.gallon.aimassistance.fabric.domain.BlockInstance
-import dev.gallon.aimassistance.fabric.domain.Position
+import dev.gallon.aimassistance.core.BlockInstance
+import dev.gallon.aimassistance.core.Position
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.Direction
 

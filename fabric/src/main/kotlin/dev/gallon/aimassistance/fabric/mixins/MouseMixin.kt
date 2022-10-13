@@ -1,7 +1,7 @@
-package dev.gallon.aimassistance.fabric.infra.mixins
+package dev.gallon.aimassistance.fabric.mixins
 
-import dev.gallon.aimassistance.fabric.infra.events.MouseMovedEvent
-import dev.gallon.aimassistance.fabric.infra.events.SingleEventBus
+import dev.gallon.aimassistance.fabric.events.MouseMovedEvent
+import dev.gallon.aimassistance.fabric.events.SingleEventBus
 import net.minecraft.client.Mouse
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.injection.At

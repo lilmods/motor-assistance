@@ -1,4 +1,4 @@
-package dev.gallon.aimassistance.fabric.domain
+package dev.gallon.aimassistance.core
 
 interface MouseInstance {
     fun wasLeftClicked(): Boolean

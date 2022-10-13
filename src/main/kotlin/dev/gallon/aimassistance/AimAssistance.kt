@@ -4,6 +4,7 @@ import dev.gallon.aimassistance.domain.AimAssistanceConfig
 import dev.gallon.aimassistance.domain.AimAssistanceService
 import dev.gallon.aimassistance.infra.FabricMinecraftInstance
 import dev.gallon.aimassistance.infra.FabricMouseInstance
+import dev.gallon.aimassistance.infra.events.RenderEvent
 import dev.gallon.aimassistance.infra.events.SingleEventBus
 import dev.gallon.aimassistance.infra.events.TickEvent
 import net.fabricmc.api.ModInitializer
@@ -40,6 +41,12 @@ class AimAssistance : ModInitializer {
             } else if (aimAssistance != null) {
                 aimAssistance!!.analyseEnvironment()
                 aimAssistance!!.analyseBehavior()
+
+            }
+        }
+
+        SingleEventBus.register<RenderEvent> {
+            if (aimAssistance != null) {
                 aimAssistance!!.assistIfPossible()
             }
         }

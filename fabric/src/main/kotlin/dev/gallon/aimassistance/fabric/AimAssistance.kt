@@ -1,5 +1,6 @@
 package dev.gallon.aimassistance.fabric
 
+import dev.gallon.aimassistance.core.domain.AimAssistanceConfig
 import dev.gallon.aimassistance.core.services.AimAssistanceService
 import dev.gallon.aimassistance.fabric.adapters.FabricMinecraftAdapter
 import dev.gallon.aimassistance.fabric.adapters.FabricMouseAdapter
@@ -22,22 +23,25 @@ class AimAssistance : ModInitializer {
         val config = AutoConfig.getConfigHolder(ModConfig::class.java).config
 
         SingleEventBus.register<TickEvent> {
-            if (aimAssistance == null && MinecraftClient.getInstance().player != null) {
-                aimAssistance = AimAssistanceService(
-                    minecraft = FabricMinecraftAdapter(MinecraftClient.getInstance()),
-                    mouse = FabricMouseAdapter(),
-                    config = config.config
-                )
-            } else if (aimAssistance != null) {
-                aimAssistance!!.analyseEnvironment()
-                aimAssistance!!.analyseBehavior()
-            }
+            initOrResetAimAssistance(config.config)
+            aimAssistance?.analyseEnvironment()
+            aimAssistance?.analyseBehavior()
         }
 
         SingleEventBus.register<RenderEvent> {
-            if (aimAssistance != null) {
-                aimAssistance!!.assistIfPossible()
-            }
+            aimAssistance?.assistIfPossible()
+        }
+    }
+
+    private fun initOrResetAimAssistance(config: AimAssistanceConfig) {
+        if (aimAssistance == null && MinecraftClient.getInstance().player != null) {
+            aimAssistance = AimAssistanceService(
+                minecraft = FabricMinecraftAdapter(MinecraftClient.getInstance()),
+                mouse = FabricMouseAdapter(),
+                config = config
+            )
+        } else if (aimAssistance != null && MinecraftClient.getInstance().player == null) {
+            aimAssistance = null
         }
     }
 }

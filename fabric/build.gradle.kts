@@ -5,6 +5,10 @@ plugins {
     java
 }
 
+base {
+    archivesBaseName =  property("archives_base_name")!!.toString()
+}
+
 group = property("maven_group")!!.toString() + ".fabric"
 version = property("mod_version")!!
 

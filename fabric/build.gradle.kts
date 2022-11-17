@@ -6,7 +6,7 @@ plugins {
 }
 
 base {
-    archivesBaseName =  property("archives_base_name")!!.toString()
+    archivesBaseName = property("archives_base_name")!!.toString()
 }
 
 group = property("maven_group")!!.toString() + ".fabric"
@@ -17,8 +17,11 @@ repositories {
     maven("https://maven.terraformersmc.com/releases/") // mod menu
 }
 
+val inJar = configurations.create("inJar")
+configurations.implementation.extendsFrom(inJar)
+
 dependencies {
-    implementation(project(":core"))
+    inJar(project(":core"))
 
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
     mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
@@ -40,7 +43,13 @@ tasks {
     }
 
     jar {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         from("LICENSE")
+        from(
+            inJar.map {
+                if (it.isDirectory) it else zipTree(it)
+            }
+        )
     }
 
     compileKotlin {

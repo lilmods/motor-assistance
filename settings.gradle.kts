@@ -1,4 +1,4 @@
-rootProject.name = "ModName"
+rootProject.name = "AimAssistance"
 
 pluginManagement {
     repositories {

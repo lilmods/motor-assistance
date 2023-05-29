@@ -4,7 +4,7 @@ Versions:
 - Minecraft `1.19.4`
 - Gradle `8.1.1`
 - Kotlin `1.8.21`
-More details in [Versions.kt](buildSrc/src/main/kotlin/com/example/gradle/Versions.kt)
+More details in [Versions.kt](buildSrc/src/main/kotlin/dev/gallon/gradle/Versions.kt)
 
 ### 1. Open project with intelliJ
 
@@ -17,18 +17,18 @@ Load gradle project, it may crash because of SDK errors, in that case:
 
 ### 2. Search & remplace:
 
-- `{license}`: The mod license
-- `{githubUser}`: The user that owns the github repo. Example: `lilmods`
-- `{githubRepo}`: The name of the github repo. Example: `kotlin-minecraft-mod-template`
-- `{author}`:  The author of the mod. It will be in the mod description (forge & fabric)
-- `modid`: The mod id. Has to be unique across mc mods.
-- `com.example.modid`: The mod package. Has to be unique across mc mods to prevent conflits on runtime.
-- `ModName`: The mod name
+- `GNU-GPL-3.0`: The mod license
+- `lilmods`: The user that owns the github repo. Example: `lilmods`
+- `aim-assistance`: The name of the github repo. Example: `kotlin-minecraft-mod-template`
+- `lilgallon`:  The author of the mod. It will be in the mod description (forge & fabric)
+- `aimassistance`: The mod id. Has to be unique across mc mods.
+- `dev.gallon.aimassistance`: The mod package. Has to be unique across mc mods to prevent conflits on runtime.
+- `AimAssistance`: The mod name
 - `ModDescription`: The mod description
 
 ### 3. Updating versions
 
-All the versions of libraries are stored in [Versions.kt](buildSrc/src/main/kotlin/com/example/gradle/Versions.kt).
+All the versions of libraries are stored in [Versions.kt](buildSrc/src/main/kotlin/dev/gallon/gradle/Versions.kt).
 The file is documented for you to know how to bump versions.
 
 ### 4. Releasing new versions
@@ -70,9 +70,9 @@ Run client: execute `runClient` gradle task
 
 You can delete everything in the readme from this line, you are ready to go, have fun :)
 
-# ModName
+# AimAssistance
 
-[![build fabric](https://github.com/{githubUser}/{githubRepo}/actions/workflows/build-fabric.yml/badge.svg?branch=main)](https://github.com/{githubUser}/{githubRepo}/actions/workflows/build-fabric.yml)
-[![build forge](https://github.com/{githubUser}/{githubRepo}/actions/workflows/build-forge.yml/badge.svg?branch=main)](https://github.com/{githubUser}/{githubRepo}/actions/workflows/build-forge.yml)
-[![release fabric](https://github.com/{githubUser}/{githubRepo}/actions/workflows/release-fabric.yml/badge.svg?branch=main)](https://github.com/{githubUser}/{githubRepo}/actions/workflows/release-fabric.yml)
-[![release forge](https://github.com/{githubUser}/{githubRepo}/actions/workflows/release-forge.yml/badge.svg?branch=main)](https://github.com/{githubUser}/{githubRepo}/actions/workflows/release-forge.yml)
+[![build fabric](https://github.com/lilmods/aim-assistance/actions/workflows/build-fabric.yml/badge.svg?branch=main)](https://github.com/lilmods/aim-assistance/actions/workflows/build-fabric.yml)
+[![build forge](https://github.com/lilmods/aim-assistance/actions/workflows/build-forge.yml/badge.svg?branch=main)](https://github.com/lilmods/aim-assistance/actions/workflows/build-forge.yml)
+[![release fabric](https://github.com/lilmods/aim-assistance/actions/workflows/release-fabric.yml/badge.svg?branch=main)](https://github.com/lilmods/aim-assistance/actions/workflows/release-fabric.yml)
+[![release forge](https://github.com/lilmods/aim-assistance/actions/workflows/release-forge.yml/badge.svg?branch=main)](https://github.com/lilmods/{githubRepo}/actions/workflows/release-forge.yml)

@@ -1,0 +1,7 @@
+{
+  "text.autoconfig.aimassistance.title": "Aim Assistance Configuration",
+  "text.autoconfig.aimassistance.option.config": "Configuration",
+  "text.autoconfig.aimassistance.option.config.doubleField": "doubleField description",
+  "text.autoconfig.aimassistance.option.config.booleanField": "booleanField description",
+  "text.autoconfig.aimassistance.option.config.longField":  "longField description"
+}

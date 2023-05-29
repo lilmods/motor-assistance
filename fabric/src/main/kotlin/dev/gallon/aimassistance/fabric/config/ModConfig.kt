@@ -1,6 +1,6 @@
 package dev.gallon.aimassistance.fabric.config
 
-import dev.gallon.aimassistance.core.AimAssistanceConfig
+import dev.gallon.aimassistance.core.domain.AimAssistanceConfig
 import me.shedaniel.autoconfig.ConfigData
 import me.shedaniel.autoconfig.annotation.Config
 import me.shedaniel.autoconfig.annotation.ConfigEntry

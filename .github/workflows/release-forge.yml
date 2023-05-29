@@ -1,15 +1,19 @@
-name: release fabric
+name: release forge
 on:
   push:
     tags:
+      # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
       # Example: 1.0.0-MC1.19.x-forge
-      - "[0-9]+.[0-9]+.[0-9]+-MC[0-9]+.[0-9]+.([0-9]+|x)-forge"
+      - "[0-9]+.[0-9]+.[0-9]+-MC[0-9]+.[0-9]+.[0-9x]+-forge"
+
+permissions:
+  contents: write
 
 jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -20,13 +24,12 @@ jobs:
       - name: build
         uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 7.6
+          gradle-version: 8.1.1
           build-root-directory: forge
           arguments: build
           cache-read-only: true
       - name: Release
-        uses: docker://antonyurchenko/git-release:latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          args: forge/build/libs/*
+          body_path: CHANGELOG-forge.md
+          files: ./forge/build/libs/**

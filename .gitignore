@@ -1,0 +1,6 @@
+.idea/
+.gradle/
+
+build/
+fabric/run/
+forge/run/

@@ -24,7 +24,7 @@ class ForgePlayerAdapter(
 
     override fun findMobsAroundPlayer(range: Double): List<Entity> =
         player
-            .level
+            .level()
             .getEntitiesOfClass(
                 Mob::class.java,
                 AABB(
@@ -48,7 +48,7 @@ class ForgePlayerAdapter(
         val vector = source.toVec3d().add(f6 * reach, f5 * reach, f7 * reach)
 
         return player
-            .level
+            .level()
             .clip(
                 ClipContext(
                     source.toVec3d(),

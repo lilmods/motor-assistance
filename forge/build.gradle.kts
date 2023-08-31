@@ -1,4 +1,6 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.js.backend.ast.JsEmpty.source
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,17 +23,11 @@ repositories {
     maven("https://maven.shedaniel.me/") // Cloth config
 }
 
-val inJar: Configuration = configurations.create("inJar")
-configurations.minecraftLibrary.get().extendsFrom(inJar)
-
 dependencies {
     minecraft("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
     implementation("thedarkcolour:kotlinforforge:$kotlinForForge")
     api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
-    inJar(project(":common")) {
-        exclude("org.jetbrains", "annotations")
-        exclude("org.jetbrains.kotlin")
-    }
+    compileOnly(project(":common"))
 }
 
 val Project.minecraft: net.minecraftforge.gradle.common.util.MinecraftExtension
@@ -45,25 +41,17 @@ minecraft.let {
             property("forge.logging.console.level", "debug")
             mods {
                 create(modId) {
-                    source(
-                        sourceSets.main.get()
-                            .apply {
-                                resources {
-                                    srcDirs.plus(
-                                        // TODO: it's probably not the right way to do that
-                                        // Add common module resources in this module at runtime
-                                        resources {
-                                            srcDirs(project(":common").sourceSets.main.get().resources.srcDirs)
-                                        },
-                                    )
-                                }
-                            },
+                    sources(
+                        sourceSets.main.get(),
+                        project(":common").sourceSets.main.get(),
                     )
                 }
             }
         }
     }
 }
+
+sourceSets.main.get().resources.srcDir("src/generated/resources")
 
 tasks {
     val javaVersion = JavaVersion.valueOf("VERSION_$jvmTarget")
@@ -73,6 +61,16 @@ tasks {
         targetCompatibility = javaVersion.toString()
         if (JavaVersion.current().isJava9Compatible) {
             options.release.set(javaVersion.toString().toInt())
+        }
+    }
+
+    withType<ProcessResources> {
+        from(project(":common").sourceSets.main.get().resources)
+    }
+
+    withType<KotlinCompilationTask<*>> {
+        configureEach {
+            source(project(":common").sourceSets.main.get().allSource)
         }
     }
 
@@ -91,9 +89,6 @@ tasks {
     }
 
     withType<Jar> {
-        doFirst {
-            from(inJar.map { if (it.isDirectory) it else zipTree(it) })
-        }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         archiveBaseName.set(modId)
         manifest {

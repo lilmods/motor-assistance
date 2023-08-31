@@ -1,6 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.js.backend.ast.JsEmpty.source
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,10 +40,7 @@ minecraft.let {
             property("forge.logging.console.level", "debug")
             mods {
                 create(modId) {
-                    sources(
-                        sourceSets.main.get(),
-                        project(":common").sourceSets.main.get(),
-                    )
+                    sources(sourceSets.main.get())
                 }
             }
         }
@@ -69,7 +65,7 @@ sourceSets {
 
 tasks {
     val javaVersion = JavaVersion.valueOf("VERSION_$jvmTarget")
-    withType<JavaCompile> {
+    compileJava {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion.toString()
         targetCompatibility = javaVersion.toString()
@@ -78,17 +74,7 @@ tasks {
         }
     }
 
-    withType<ProcessResources> {
-        from(project(":common").sourceSets.main.get().resources)
-    }
-
-    withType<KotlinCompilationTask<*>> {
-        configureEach {
-            source(project(":common").sourceSets.main.get().allSource)
-        }
-    }
-
-    withType<KotlinCompile> {
+    compileKotlin {
         kotlinOptions {
             jvmTarget = javaVersion.toString()
         }
@@ -102,7 +88,7 @@ tasks {
         targetCompatibility = javaVersion
     }
 
-    withType<Jar> {
+    jar {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         archiveBaseName.set(modId)
         manifest {

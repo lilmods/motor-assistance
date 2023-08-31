@@ -92,12 +92,7 @@ tasks {
 
     withType<Jar> {
         doFirst {
-            from(
-                inJar
-                    .filterNot { it.absolutePath.contains("org.jetbrains") }
-                    .filterNot { it.absolutePath.contains("kotlin-stdlib") }
-                    .map { if (it.isDirectory) it else zipTree(it) },
-            )
+            from(inJar.map { if (it.isDirectory) it else zipTree(it) })
         }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         archiveBaseName.set(modId)

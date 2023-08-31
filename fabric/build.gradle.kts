@@ -17,12 +17,8 @@ repositories {
     maven("https://maven.terraformersmc.com/releases/") // mod menu
 }
 
-val inJar: Configuration = configurations.create("inJar")
-configurations.implementation.get().extendsFrom(inJar)
-
 dependencies {
-    inJar(project(":common"))
-
+    compileOnly(project(":common"))
     minecraft("com.mojang:minecraft:$minecraftVersion")
     mappings("net.fabricmc:yarn:$yarnMappings:v2")
     modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
@@ -33,14 +29,19 @@ dependencies {
     modApi("com.terraformersmc:modmenu:$modMenuVersion")
 }
 
-sourceSets.main.get().apply {
-    resources {
-        srcDirs.plus(
-            // Add common module resources in this module at runtime
-            resources {
-                srcDirs(project(":common").sourceSets.main.get().resources.srcDirs)
-            },
-        )
+sourceSets {
+    main {
+        java {
+            srcDir(project(":common").sourceSets.main.get().java)
+        }
+
+        kotlin {
+            srcDir(project(":common").sourceSets.main.get().kotlin)
+        }
+
+        resources {
+            srcDir(project(":common").sourceSets.main.get().resources)
+        }
     }
 }
 
@@ -55,14 +56,6 @@ tasks {
     jar {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         from("LICENSE")
-        from(
-            inJar
-                .filterNot { it.absolutePath.contains("org.jetbrains") }
-                .filterNot { it.absolutePath.contains("kotlin-stdlib") }
-                .map {
-                    if (it.isDirectory) it else zipTree(it)
-                },
-        )
     }
 
     compileKotlin {

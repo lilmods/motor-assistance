@@ -33,6 +33,17 @@ dependencies {
     modApi("com.terraformersmc:modmenu:$modMenuVersion")
 }
 
+sourceSets.main.get().apply {
+    resources {
+        srcDirs.plus(
+            // Add common module resources in this module at runtime
+            resources {
+                srcDirs(project(":common").sourceSets.main.get().resources.srcDirs)
+            },
+        )
+    }
+}
+
 tasks {
     processResources {
         inputs.property("version", project.version)

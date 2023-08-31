@@ -11,7 +11,7 @@ not used to play on a computer. Everything is configurable. Ideal to introduce M
 
 **Downloads**
 
-![github downloads](https://img.shields.io/github/downloads/lilmods/aim-assistance/total.svg?label=Github%20downloads&logo=github&style=for-the-badge)![github downloads (old)](https://img.shields.io/github/downloads/lilgallon/motorassistancemod/total.svg?label=Github%20downloads%20(old%20repo)&logo=github&style=for-the-badge)
+![github downloads](https://img.shields.io/github/downloads/lilmods/aim-assistance/total.svg?label=Github%20downloads&logo=github&style=for-the-badge)![github downloads (old)](https://img.shields.io/github/downloads/lilgallon/aimassistancemod/total.svg?label=Github%20downloads%20(old%20repo)&logo=github&style=for-the-badge)
 
 - forge: [![curseforge downloads](http://cf.way2muchnoise.eu/full_399201_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/aim-assistance)
 - fabric: [![curseforge downloads](http://cf.way2muchnoise.eu/full_676747_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/aim-assistance-fabric)

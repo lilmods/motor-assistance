@@ -1,12 +1,22 @@
 # AimAssistance
 
-[![build fabric](https://github.com/lilmods/aim-assistance/actions/workflows/build-fabric.yml/badge.svg?branch=main)](https://github.com/lilmods/aim-assistance/actions/workflows/build-fabric.yml)
-[![build forge](https://github.com/lilmods/aim-assistance/actions/workflows/build-forge.yml/badge.svg?branch=main)](https://github.com/lilmods/aim-assistance/actions/workflows/build-forge.yml)
-[![release fabric](https://github.com/lilmods/aim-assistance/actions/workflows/release-fabric.yml/badge.svg?branch=main)](https://github.com/lilmods/aim-assistance/actions/workflows/release-fabric.yml)
-[![release forge](https://github.com/lilmods/aim-assistance/actions/workflows/release-forge.yml/badge.svg?branch=main)](https://github.com/lilmods/{githubRepo}/actions/workflows/release-forge.yml)
-
 The only Minecraft Mod that helps to aim without giving an unfair PvP advantage. Useful for new players that are
 not used to play on a computer. Everything is configurable. Ideal to introduce Minecraft to your parents!
+
+**Build status**
+
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/lilmods/aim-assistance/build-fabric.yml?style=for-the-badge&logo=gradle&label=fabric%20build)![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/lilmods/aim-assistance/release-fabric.yml?style=for-the-badge&logo=flatpak&logoColor=white&label=fabric%20release)
+
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/lilmods/aim-assistance/build-forge.yml?style=for-the-badge&logo=gradle&label=forge%20build)![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/lilmods/aim-assistance/release-forge.yml?style=for-the-badge&logo=flatpak&logoColor=white&label=forge%20release)
+
+**Downloads**
+
+![github downloads](https://img.shields.io/github/downloads/lilmods/aim-assistance/total.svg?label=Github%20downloads&logo=github&style=for-the-badge)![github downloads (old)](https://img.shields.io/github/downloads/lilgallon/aimassistancemod/total.svg?label=Github%20downloads%20(old%20repo)&logo=github&style=for-the-badge)
+
+- forge: [![curseforge downloads](http://cf.way2muchnoise.eu/full_399201_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/aim-assistance)
+- fabric: [![curseforge downloads](http://cf.way2muchnoise.eu/full_676747_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/aim-assistance-fabric)
+
+**Screenshots**
 
 ![Fighting assistance](.github/assets/aimassistance-fighting.gif)
 _Fighting assistance (it does not work on other players)_
@@ -20,3 +30,7 @@ _Mining assistance_
 
 ![AimAssistance config](.github/assets/aimassistance-config.png)
 _Configuration screen_
+
+**Configuration**
+
+_work in progress_

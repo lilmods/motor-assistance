@@ -1,7 +1,7 @@
 package dev.gallon.motorassistance.fabric.adapters
 
-import dev.gallon.motorassistance.core.domain.Position
-import dev.gallon.motorassistance.core.interfaces.Block
+import dev.gallon.motorassistance.common.domain.Position
+import dev.gallon.motorassistance.common.interfaces.Block
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.Direction
 

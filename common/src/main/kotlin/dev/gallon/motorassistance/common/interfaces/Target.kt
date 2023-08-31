@@ -1,7 +1,7 @@
-package dev.gallon.motorassistance.core.interfaces
+package dev.gallon.motorassistance.common.interfaces
 
-import dev.gallon.motorassistance.core.domain.Position
-import dev.gallon.motorassistance.core.domain.Rotation
+import dev.gallon.motorassistance.common.domain.Position
+import dev.gallon.motorassistance.common.domain.Rotation
 
 sealed interface Target {
     fun getPosition(): Position

@@ -1,6 +1,6 @@
 package dev.gallon.motorassistance.fabric.config
 
-import dev.gallon.motorassistance.core.domain.MotorAssistanceConfig
+import dev.gallon.motorassistance.common.domain.MotorAssistanceConfig
 import me.shedaniel.autoconfig.ConfigData
 import me.shedaniel.autoconfig.annotation.Config
 import me.shedaniel.autoconfig.annotation.ConfigEntry

@@ -1,7 +1,7 @@
 package dev.gallon.motorassistance.forge.adapters
 
-import dev.gallon.motorassistance.core.domain.Position
-import dev.gallon.motorassistance.core.interfaces.Block
+import dev.gallon.motorassistance.common.domain.Position
+import dev.gallon.motorassistance.common.interfaces.Block
 import net.minecraft.core.Direction
 import net.minecraft.world.phys.BlockHitResult
 

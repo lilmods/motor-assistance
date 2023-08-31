@@ -1,8 +1,8 @@
 package dev.gallon.motorassistance.forge.adapters
 
-import dev.gallon.motorassistance.core.interfaces.Block
-import dev.gallon.motorassistance.core.interfaces.Minecraft
-import dev.gallon.motorassistance.core.interfaces.Player
+import dev.gallon.motorassistance.common.interfaces.Block
+import dev.gallon.motorassistance.common.interfaces.Minecraft
+import dev.gallon.motorassistance.common.interfaces.Player
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult

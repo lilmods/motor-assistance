@@ -8,7 +8,7 @@ const val minecraftVersion = "1.20.1"
 // Mod
 const val modId = "motorassistance"
 const val modGroup = "dev.gallon.$modId"
-const val coreVersion = "1.0.0"
+const val commonVersion = "1.0.0"
 
 // Forge - also update mods.toml
 const val kotlinForForge = "4.3.0" // https://github.com/thedarkcolour/KotlinForForge

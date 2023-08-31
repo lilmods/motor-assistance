@@ -1,4 +1,4 @@
-package dev.gallon.motorassistance.core.domain
+package dev.gallon.motorassistance.common.domain
 
 data class Rotation(
     val pitch: Double,

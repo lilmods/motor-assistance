@@ -2,8 +2,8 @@ plugins {
     kotlin("jvm")
 }
 
-group = "$modGroup.core"
-version = coreVersion
+group = "$modGroup.common"
+version = commonVersion
 
 repositories {
     mavenCentral()

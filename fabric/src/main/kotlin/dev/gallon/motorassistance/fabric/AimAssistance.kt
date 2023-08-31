@@ -1,7 +1,7 @@
 package dev.gallon.motorassistance.fabric
 
-import dev.gallon.motorassistance.core.domain.MotorAssistanceConfig
-import dev.gallon.motorassistance.core.services.MotorAssistanceService
+import dev.gallon.motorassistance.common.domain.MotorAssistanceConfig
+import dev.gallon.motorassistance.common.services.MotorAssistanceService
 import dev.gallon.motorassistance.fabric.adapters.FabricMinecraftAdapter
 import dev.gallon.motorassistance.fabric.adapters.FabricMouseAdapter
 import dev.gallon.motorassistance.fabric.config.ModConfig

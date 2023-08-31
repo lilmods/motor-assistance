@@ -1,8 +1,8 @@
-package dev.gallon.motorassistance.core.services
+package dev.gallon.motorassistance.common.services
 
-import dev.gallon.motorassistance.core.domain.*
-import dev.gallon.motorassistance.core.interfaces.*
-import dev.gallon.motorassistance.core.interfaces.Target
+import dev.gallon.motorassistance.common.domain.*
+import dev.gallon.motorassistance.common.interfaces.*
+import dev.gallon.motorassistance.common.interfaces.Target
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.sqrt

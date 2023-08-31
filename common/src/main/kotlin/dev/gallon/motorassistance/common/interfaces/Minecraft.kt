@@ -1,4 +1,4 @@
-package dev.gallon.motorassistance.core.interfaces
+package dev.gallon.motorassistance.common.interfaces
 
 interface Minecraft {
 

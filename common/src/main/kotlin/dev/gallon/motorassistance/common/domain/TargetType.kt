@@ -1,4 +1,4 @@
-package dev.gallon.motorassistance.core.domain
+package dev.gallon.motorassistance.common.domain
 
 enum class TargetType {
     ENTITY, BLOCK, NONE

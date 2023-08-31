@@ -8,7 +8,7 @@ on:
       - 'gradle.properties'
       - 'gradle/**'
       - 'buildSrc/**'
-      - 'core/**'
+      - 'common/**'
       - 'fabric/**'
   push:
     branches: [ "main" ]
@@ -18,7 +18,7 @@ on:
       - 'gradle.properties'
       - 'gradle/**'
       - 'buildSrc/**'
-      - 'core/**'
+      - 'common/**'
       - 'fabric/**'
 
 jobs:

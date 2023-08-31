@@ -1,6 +1,6 @@
 package dev.gallon.motorassistance.forge
 
-import dev.gallon.motorassistance.core.services.MotorAssistanceService
+import dev.gallon.motorassistance.common.services.MotorAssistanceService
 import dev.gallon.motorassistance.forge.adapters.ForgeMinecraftAdapter
 import dev.gallon.motorassistance.forge.adapters.ForgeMouseAdapter
 import dev.gallon.motorassistance.forge.config.ModConfig

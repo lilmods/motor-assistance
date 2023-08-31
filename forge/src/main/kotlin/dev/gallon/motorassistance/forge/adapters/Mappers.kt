@@ -1,7 +1,7 @@
 package dev.gallon.motorassistance.forge.adapters
 
-import dev.gallon.motorassistance.core.domain.Position
-import dev.gallon.motorassistance.core.domain.Rotation
+import dev.gallon.motorassistance.common.domain.Position
+import dev.gallon.motorassistance.common.domain.Rotation
 import net.minecraft.world.phys.Vec3
 
 fun Vec3.toPosition() = Position(x, y, z)

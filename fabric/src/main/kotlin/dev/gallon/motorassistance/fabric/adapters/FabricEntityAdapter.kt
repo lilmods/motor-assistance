@@ -1,8 +1,8 @@
 package dev.gallon.motorassistance.fabric.adapters
 
-import dev.gallon.motorassistance.core.domain.Position
-import dev.gallon.motorassistance.core.domain.Rotation
-import dev.gallon.motorassistance.core.interfaces.Entity
+import dev.gallon.motorassistance.common.domain.Position
+import dev.gallon.motorassistance.common.domain.Rotation
+import dev.gallon.motorassistance.common.interfaces.Entity
 import net.minecraft.entity.Entity as FabricEntity
 
 open class FabricEntityAdapter(

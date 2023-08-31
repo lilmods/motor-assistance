@@ -1,8 +1,8 @@
 package dev.gallon.motorassistance.forge.adapters
 
-import dev.gallon.motorassistance.core.domain.Position
-import dev.gallon.motorassistance.core.domain.Rotation
-import dev.gallon.motorassistance.core.interfaces.Entity
+import dev.gallon.motorassistance.common.domain.Position
+import dev.gallon.motorassistance.common.domain.Rotation
+import dev.gallon.motorassistance.common.interfaces.Entity
 import net.minecraft.world.entity.Entity as ForgeEntity
 
 open class ForgeEntityAdapter(

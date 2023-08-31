@@ -1,6 +1,6 @@
 package dev.gallon.motorassistance.fabric.adapters
 
-import dev.gallon.motorassistance.core.interfaces.Mouse
+import dev.gallon.motorassistance.common.interfaces.Mouse
 import dev.gallon.motorassistance.fabric.events.LeftMouseClickEvent
 import dev.gallon.motorassistance.fabric.events.MouseMoveEvent
 import dev.gallon.motorassistance.fabric.events.SingleEventBus

@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.text.SimpleDateFormat
 import java.util.*
@@ -56,6 +55,7 @@ minecraft.let {
                 create(forgeModVersion) {
                     source(
                         sourceSets.main.get().apply {
+                            sources.plus(project(":common").sourceSets.main.get())
                             resources {
                                 srcDirs.plus(
                                     // Add common module resources in this module at runtime

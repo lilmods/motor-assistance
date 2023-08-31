@@ -1,5 +1,5 @@
 {
-  "text.autoconfig.motorassistance.title": "Aim Assistance Configuration",
+  "text.autoconfig.motorassistance.title": "Motor Assistance Configuration",
   "text.autoconfig.motorassistance.option.config": "Configuration",
   "text.autoconfig.motorassistance.option.config.fov": "Field of view",
   "text.autoconfig.motorassistance.option.config.aimBlock": "Assist when mining",

@@ -11,7 +11,7 @@ const val modGroup = "dev.gallon.$modId"
 const val commonVersion = "1.0.0"
 
 // Forge - also update mods.toml
-const val kotlinForForge = "4.3.0" // https://github.com/thedarkcolour/KotlinForForge
+const val kotlinForForge = "4.4.0" // https://github.com/thedarkcolour/KotlinForForge
 const val kotlinGradlePlugin = kotlinVersion
 const val forgeVersion = "47.1.0" // https://files.minecraftforge.net/net/minecraftforge/forge
 const val forgeGradlePlugin = "[6.0,6.2)" // https://files.minecraftforge.net/net/minecraftforge/gradle/ForgeGradle/

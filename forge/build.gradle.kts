@@ -22,15 +22,16 @@ repositories {
 }
 
 val inJar: Configuration = configurations.create("inJar")
-// configurations.minecraftLibrary.get().extendsFrom(inJar) does not work, the files of inJar dependencies are not
-// included in the minecraft classpath during runtime
 configurations.minecraftLibrary.get().extendsFrom(inJar)
 
 dependencies {
     minecraft("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
     implementation("thedarkcolour:kotlinforforge:$kotlinForForge")
     api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
-    inJar(project(":common"))
+    inJar(project(":common")) {
+        exclude("org.jetbrains", "annotations")
+        exclude("org.jetbrains.kotlin")
+    }
 }
 
 val Project.minecraft: net.minecraftforge.gradle.common.util.MinecraftExtension
@@ -39,32 +40,24 @@ val Project.minecraft: net.minecraftforge.gradle.common.util.MinecraftExtension
 minecraft.let {
     it.mappings("official", minecraftVersion)
     it.runs {
-        all {
-            lazyToken("minecraft_classpath") {
-                inJar.copyRecursive().resolve()
-                    .filterNot { it.absolutePath.contains("org.jetbrains") }
-                    .filterNot { it.absolutePath.contains("kotlin-stdlib") }
-                    .joinToString(File.pathSeparator) { it.absolutePath }
-            }
-        }
-
         create("client") {
             workingDirectory(project.file("run"))
             property("forge.logging.console.level", "debug")
             mods {
-                create(forgeModVersion) {
+                create(modId) {
                     source(
-                        sourceSets.main.get().apply {
-                            sources.plus(project(":common").sourceSets.main.get())
-                            resources {
-                                srcDirs.plus(
-                                    // Add common module resources in this module at runtime
-                                    resources {
-                                        srcDirs(project(":common").sourceSets.main.get().resources.srcDirs)
-                                    },
-                                )
-                            }
-                        },
+                        sourceSets.main.get()
+                            .apply {
+                                resources {
+                                    srcDirs.plus(
+                                        // TODO: it's probably not the right way to do that
+                                        // Add common module resources in this module at runtime
+                                        resources {
+                                            srcDirs(project(":common").sourceSets.main.get().resources.srcDirs)
+                                        },
+                                    )
+                                }
+                            },
                     )
                 }
             }

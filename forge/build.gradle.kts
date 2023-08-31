@@ -51,7 +51,21 @@ minecraft.let {
     }
 }
 
-sourceSets.main.get().resources.srcDir("src/generated/resources")
+sourceSets {
+    main {
+        java {
+            srcDir(project(":common").sourceSets.main.get().java)
+        }
+
+        kotlin {
+            srcDir(project(":common").sourceSets.main.get().kotlin)
+        }
+
+        resources {
+            srcDir(project(":common").sourceSets.main.get().resources)
+        }
+    }
+}
 
 tasks {
     val javaVersion = JavaVersion.valueOf("VERSION_$jvmTarget")

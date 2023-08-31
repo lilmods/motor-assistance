@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "aimassistance",
+  "id": "motorassistance",
   "version": "${version}",
 
-  "name": "aimassistance",
+  "name": "motorassistance",
   "description": "The only Minecraft Mod that helps to aim without giving an unfair PvP advantage. Useful for new players that are not used to play on a computer. Everything is configurable. Ideal to introduce Minecraft to your parents! ",
   "authors": [
     "lilgallon"
@@ -14,22 +14,22 @@
   },
 
   "license": "GNU-GPL-3.0",
-  "icon": "assets/aimassistance/icon.png",
+  "icon": "assets/motorassistance/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
       {
         "adapter": "kotlin",
-        "value": "dev.gallon.aimassistance.fabric.AimAssistance"
+        "value": "dev.gallon.motorassistance.fabric.MotorAssistance"
       }
     ],
     "modmenu": [
-      "dev.gallon.aimassistance.fabric.config.ModMenu"
+      "dev.gallon.motorassistance.fabric.config.ModMenu"
     ]
   },
   "mixins": [
-    "aimassistance.mixins.json"
+    "motorassistance.mixins.json"
   ],
 
   "depends": {

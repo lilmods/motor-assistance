@@ -1,4 +1,4 @@
-rootProject.name = "AimAssistance"
+rootProject.name = "MotorAssistance"
 
 pluginManagement {
     repositories {

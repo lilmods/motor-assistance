@@ -1,4 +1,4 @@
-# AimAssistance
+# MotorAssistance
 
 The only Minecraft Mod that helps to aim without giving an unfair PvP advantage. Useful for new players that are
 not used to play on a computer. Everything is configurable. Ideal to introduce Minecraft to your parents!
@@ -11,24 +11,24 @@ not used to play on a computer. Everything is configurable. Ideal to introduce M
 
 **Downloads**
 
-![github downloads](https://img.shields.io/github/downloads/lilmods/aim-assistance/total.svg?label=Github%20downloads&logo=github&style=for-the-badge)![github downloads (old)](https://img.shields.io/github/downloads/lilgallon/aimassistancemod/total.svg?label=Github%20downloads%20(old%20repo)&logo=github&style=for-the-badge)
+![github downloads](https://img.shields.io/github/downloads/lilmods/aim-assistance/total.svg?label=Github%20downloads&logo=github&style=for-the-badge)![github downloads (old)](https://img.shields.io/github/downloads/lilgallon/motorassistancemod/total.svg?label=Github%20downloads%20(old%20repo)&logo=github&style=for-the-badge)
 
 - forge: [![curseforge downloads](http://cf.way2muchnoise.eu/full_399201_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/aim-assistance)
 - fabric: [![curseforge downloads](http://cf.way2muchnoise.eu/full_676747_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/aim-assistance-fabric)
 
 **Screenshots**
 
-![Fighting assistance](.github/assets/aimassistance-fighting.gif)
+![Fighting assistance](.github/assets/motorassistance-fighting.gif)
 _Fighting assistance (it does not work on other players)_
 
 ---
 
-![Mining assistance](.github/assets/aimassistance-mining.gif)
+![Mining assistance](.github/assets/motorassistance-mining.gif)
 _Mining assistance_
 
 ---
 
-![AimAssistance config](.github/assets/aimassistance-config.png)
+![MotorAssistance config](.github/assets/motorassistance-config.png)
 _Configuration screen_
 
 **Configuration**

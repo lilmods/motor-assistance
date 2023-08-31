@@ -1,3 +1,5 @@
+<img src=".github/assets/motor-assistance-icon.png" alt="drawing" width="200"/>
+
 # MotorAssistance
 
 The only Minecraft Mod that helps to aim without giving an unfair PvP advantage. Useful for new players that are

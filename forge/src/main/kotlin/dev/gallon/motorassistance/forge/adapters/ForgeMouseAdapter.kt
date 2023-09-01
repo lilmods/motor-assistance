@@ -1,7 +1,6 @@
 package dev.gallon.motorassistance.forge.adapters
 
 import com.mrcrayfish.controllable.Controllable
-import dev.gallon.motorassistance.common.domain.MotorAssistanceConfig
 import dev.gallon.motorassistance.common.interfaces.Mouse
 import net.minecraft.client.Minecraft
 import net.minecraftforge.client.event.InputEvent

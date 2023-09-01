@@ -19,6 +19,7 @@ version = "$forgeModVersion-forge"
 repositories {
     maven("https://thedarkcolour.github.io/KotlinForForge/") // Kotlin for Forge
     maven("https://maven.shedaniel.me/") // Cloth config
+    maven("https://cursemaven.com") // Controllable
 }
 
 dependencies {
@@ -26,6 +27,7 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge:$kotlinForForge")
     api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
     compileOnly(project(":common"))
+    compileOnly(fg.deobf("curse.maven:controllable-317269:$controllableVersion"))
 }
 
 val Project.minecraft: net.minecraftforge.gradle.common.util.MinecraftExtension

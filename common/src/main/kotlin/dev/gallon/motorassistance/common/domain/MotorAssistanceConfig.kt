@@ -3,6 +3,7 @@ package dev.gallon.motorassistance.common.domain
 data class MotorAssistanceConfig(
     // common
     val fov: Double = 60.0,
+    val onlyAssistController: Boolean = false,
 
     // block
     val aimBlock: Boolean = true,

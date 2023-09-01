@@ -10,5 +10,5 @@ class ModConfig : ConfigData {
     // documentation: https://shedaniel.gitbook.io/cloth-config/auto-config/creating-a-config-class
 
     @ConfigEntry.Gui.CollapsibleObject
-    val config = MotorAssistanceConfig()
+    val modConfig = MotorAssistanceConfig()
 }

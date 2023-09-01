@@ -15,8 +15,7 @@ const val kotlinForForge = "4.4.0" // https://github.com/thedarkcolour/KotlinFor
 const val kotlinGradlePlugin = kotlinVersion
 const val forgeVersion = "47.1.0" // https://files.minecraftforge.net/net/minecraftforge/forge
 const val forgeGradlePlugin = "[6.0,6.2)" // https://files.minecraftforge.net/net/minecraftforge/gradle/ForgeGradle/
-const val forgeModVersion = "2.0.0-MC$minecraftVersion"
-const val forgeModArchive = "$modId-$forgeModVersion-forge"
+const val forgeModVersion = "2.1.0-MC$minecraftVersion"
 
 // Fabric - also update fabric.mod.json
 // 1.2+ requires gradle 8, forge is not yet compatible
@@ -24,7 +23,6 @@ const val loomVersion = "1.3-SNAPSHOT" // https://github.com/FabricMC/fabric-exa
 const val yarnMappings = "$minecraftVersion+build.9" // https://fabricmc.net/develop/
 const val loaderVersion = "0.14.21" // https://fabricmc.net/develop/
 const val fabricModVersion = "2.0.0-MC$minecraftVersion"
-const val fabricModArchive = "$modId-$fabricModVersion-fabric"
 
 // External dependencies
 
@@ -36,3 +34,4 @@ const val fabricKotlinVersion = "1.10.10+kotlin.$kotlinVersion" // https://githu
 const val modMenuVersion = "7.2.1" // https://github.com/TerraformersMC/ModMenu/releases
 
 // Forge
+const val controllableVersion = "4598985" // https://www.curseforge.com/minecraft/mc-mods/controllable

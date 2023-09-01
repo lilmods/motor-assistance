@@ -45,9 +45,12 @@ object MotorAssistance {
     @SubscribeEvent
     fun onLoggingIn(loggingInEvent: LevelEvent.Load) {
         motorAssistance = MotorAssistanceService(
-            minecraft = ForgeMinecraftAdapter(Minecraft.getInstance()),
+            minecraft = ForgeMinecraftAdapter(
+                Minecraft.getInstance(),
+                AutoConfig.getConfigHolder(ModConfig::class.java).config.modConfig,
+            ),
             mouse = forgeMouseAdapter,
-            config = AutoConfig.getConfigHolder(ModConfig::class.java).config.config,
+            config = AutoConfig.getConfigHolder(ModConfig::class.java).config.modConfig,
         )
     }
 

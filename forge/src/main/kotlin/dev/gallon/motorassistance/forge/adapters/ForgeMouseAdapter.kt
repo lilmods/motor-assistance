@@ -1,10 +1,13 @@
 package dev.gallon.motorassistance.forge.adapters
 
+import com.mrcrayfish.controllable.Controllable
+import dev.gallon.motorassistance.common.domain.MotorAssistanceConfig
 import dev.gallon.motorassistance.common.interfaces.Mouse
 import net.minecraft.client.Minecraft
 import net.minecraftforge.client.event.InputEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.ModList
 import org.lwjgl.glfw.GLFW
 
 class ForgeMouseAdapter : Mouse {
@@ -13,10 +16,21 @@ class ForgeMouseAdapter : Mouse {
     private var skipEventCount = 2
     private var prevX = -1.0
     private var prevY = -1.0
+    private var controllableLoaded = false
+
+    init {
+        controllableLoaded = ModList.get().isLoaded("controllable")
+    }
 
     @SubscribeEvent
     fun onClientTick(clientTickEvent: TickEvent.ClientTickEvent) {
         checkForMouseMove()
+
+        if (controllableLoaded && !leftClicked) {
+            leftClicked = Controllable.getController()
+                ?.run { rTriggerValue != 0.0F }
+                ?: false
+        }
     }
 
     @SubscribeEvent

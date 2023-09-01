@@ -1,4 +1,4 @@
-#### v2.0.0 for Minecraft 1.20.1
+#### v2.1.0 for Minecraft 1.20.1
 
 **Prerequisites**:
 - Minecraft: 1.20.1
@@ -7,4 +7,6 @@
 - Forge: 47.0.0 or newer
 
 **Changes**:
-- None
+- Support for Controllable
+- Added an option to enable assistance only when a controller is used. In that case,
+the assistance will be disabled when using a mouse

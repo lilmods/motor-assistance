@@ -1,4 +1,4 @@
-#### v2.0.0 for Minecraft 1.19.4
+#### v2.0.0 for Minecraft 1.20.1
 
 **Prerequisites**:
 - Minecraft: 1.20.1

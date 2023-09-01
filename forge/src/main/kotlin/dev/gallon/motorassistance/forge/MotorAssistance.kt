@@ -18,6 +18,7 @@ import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 @Mod("motorassistance")
 object MotorAssistance {
     private var motorAssistance: MotorAssistanceService? = null
+    private val forgeMouseAdapter: ForgeMouseAdapter = ForgeMouseAdapter()
 
     init {
         AutoConfig.register(ModConfig::class.java, ::JanksonConfigSerializer)
@@ -37,38 +38,34 @@ object MotorAssistance {
         FORGE_BUS.addListener(::onPlayerTick)
         FORGE_BUS.addListener(::onClientTick)
         FORGE_BUS.addListener(::onRender)
-        FORGE_BUS.register(ForgeMouseAdapter)
+        FORGE_BUS.addListener(forgeMouseAdapter::onClientTick)
+        FORGE_BUS.addListener(forgeMouseAdapter::onMouseButtonReleased)
     }
 
-    @JvmStatic
     @SubscribeEvent
     fun onLoggingIn(loggingInEvent: LevelEvent.Load) {
         motorAssistance = MotorAssistanceService(
             minecraft = ForgeMinecraftAdapter(Minecraft.getInstance()),
-            mouse = ForgeMouseAdapter,
+            mouse = forgeMouseAdapter,
             config = AutoConfig.getConfigHolder(ModConfig::class.java).config.config,
         )
     }
 
-    @JvmStatic
     @SubscribeEvent
     fun onLoggingOut(loggingInEvent: LevelEvent.Unload) {
         motorAssistance = null
     }
 
-    @JvmStatic
     @SubscribeEvent
     fun onPlayerTick(playerTickEvent: net.minecraftforge.event.TickEvent.PlayerTickEvent?) {
-        motorAssistance?.analyseEnvironment()
+        motorAssistance?.analyseBehavior()
     }
 
-    @JvmStatic
     @SubscribeEvent
     fun onClientTick(clientTickEvent: net.minecraftforge.event.TickEvent.ClientTickEvent?) {
         motorAssistance?.analyseEnvironment()
     }
 
-    @JvmStatic
     @SubscribeEvent
     fun onRender(renderTickEvent: net.minecraftforge.event.TickEvent.RenderTickEvent?) {
         motorAssistance?.assistIfPossible()

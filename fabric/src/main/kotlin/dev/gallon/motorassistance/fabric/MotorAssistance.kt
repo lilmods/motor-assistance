@@ -11,7 +11,7 @@ import dev.gallon.motorassistance.fabric.events.TickEvent
 import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer
 import net.fabricmc.api.ModInitializer
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 class MotorAssistance : ModInitializer {
     private var motorAssistance: MotorAssistanceService? = null
@@ -21,7 +21,7 @@ class MotorAssistance : ModInitializer {
         val config = AutoConfig.getConfigHolder(ModConfig::class.java).config
 
         SingleEventBus.register<TickEvent> {
-            initOrResetMotorAssistance(config.config)
+            initOrResetMotorAssistance(config.modConfig)
             motorAssistance?.analyseEnvironment()
             motorAssistance?.analyseBehavior()
         }
@@ -32,13 +32,13 @@ class MotorAssistance : ModInitializer {
     }
 
     private fun initOrResetMotorAssistance(config: MotorAssistanceConfig) {
-        if (motorAssistance == null && MinecraftClient.getInstance().player != null) {
+        if (motorAssistance == null && Minecraft.getInstance().player != null) {
             motorAssistance = MotorAssistanceService(
-                minecraft = FabricMinecraftAdapter(MinecraftClient.getInstance()),
+                minecraft = FabricMinecraftAdapter(Minecraft.getInstance()),
                 input = FabricInputAdapter(),
                 config = config,
             )
-        } else if (motorAssistance != null && MinecraftClient.getInstance().player == null) {
+        } else if (motorAssistance != null && Minecraft.getInstance().player == null) {
             motorAssistance = null
         }
     }

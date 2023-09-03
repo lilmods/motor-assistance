@@ -1,12 +1,13 @@
 package dev.gallon.motorassistance.forge.adapters
 
 import com.mrcrayfish.controllable.Controllable
+import dev.gallon.motorassistance.common.domain.CONTROLLABLE_MOD_ID
 import dev.gallon.motorassistance.common.interfaces.Input
+import dev.gallon.motorassistance.forge.utils.whenModLoaded
 import net.minecraft.client.Minecraft
 import net.minecraftforge.client.event.InputEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.ModList
 import org.lwjgl.glfw.GLFW
 
 class ForgeInputAdapter : Input {
@@ -56,6 +57,7 @@ class ForgeInputAdapter : Input {
 
     override fun wasMoved(): Boolean = moved.also { moved = false }
 
-    override fun isControllerUsed(): Boolean = ModList.get().isLoaded("controllable") &&
+    override fun isControllerUsed(): Boolean = whenModLoaded(CONTROLLABLE_MOD_ID) {
         Controllable.getInput().isControllerInUse
+    } ?: false
 }

@@ -2,8 +2,8 @@ package dev.gallon.motorassistance.fabric.adapters
 
 import dev.gallon.motorassistance.common.domain.Position
 import dev.gallon.motorassistance.common.interfaces.Block
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.util.math.Direction
+import net.minecraft.core.Direction
+import net.minecraft.world.phys.BlockHitResult
 
 class FabricBlockAdapter(
     private val block: BlockHitResult,
@@ -17,7 +17,7 @@ class FabricBlockAdapter(
             )
         }
         .run {
-            when (block.side) {
+            when (block.direction) {
                 Direction.WEST -> copy(x = x - 0.5)
                 Direction.EAST -> copy(x = x + 0.5)
                 Direction.NORTH -> copy(z = z - 0.5)

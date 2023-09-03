@@ -1,8 +1,8 @@
 package dev.gallon.motorassistance.forge
 
 import dev.gallon.motorassistance.common.services.MotorAssistanceService
-import dev.gallon.motorassistance.forge.adapters.ForgeMinecraftAdapter
 import dev.gallon.motorassistance.forge.adapters.ForgeInputAdapter
+import dev.gallon.motorassistance.forge.adapters.ForgeMinecraftAdapter
 import dev.gallon.motorassistance.forge.config.ModConfig
 import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer

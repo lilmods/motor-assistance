@@ -5,29 +5,29 @@ import dev.gallon.motorassistance.common.domain.Rotation
 import dev.gallon.motorassistance.common.interfaces.Block
 import dev.gallon.motorassistance.common.interfaces.Entity
 import dev.gallon.motorassistance.common.interfaces.Player
-import net.minecraft.client.network.ClientPlayerEntity
-import net.minecraft.entity.mob.MobEntity
-import net.minecraft.util.math.Box
-import net.minecraft.util.math.MathHelper
-import net.minecraft.world.RaycastContext
+import net.minecraft.client.player.LocalPlayer
+import net.minecraft.util.Mth
+import net.minecraft.world.entity.Mob
+import net.minecraft.world.level.ClipContext
+import net.minecraft.world.phys.AABB
 
 class FabricPlayerAdapter(
-    private val player: ClientPlayerEntity,
+    private val player: LocalPlayer,
 ) : FabricEntityAdapter(player), Player {
 
     override fun setRotation(rotations: Rotation) {
-        player.pitch = rotations.pitch.toFloat()
-        player.yaw = rotations.yaw.toFloat()
+        player.xRot = rotations.pitch.toFloat()
+        player.yRot = rotations.yaw.toFloat()
     }
 
-    override fun canInteract(): Boolean = player.canHit()
+    override fun canInteract(): Boolean = player.isPickable
 
     override fun findMobsAroundPlayer(range: Double): List<Entity> =
         player
-            .world
-            ?.getEntitiesByClass(
-                MobEntity::class.java,
-                Box(
+            .level()
+            .getEntitiesOfClass(
+                Mob::class.java,
+                AABB(
                     player.x - range,
                     player.y - range,
                     player.z - range,
@@ -36,28 +36,28 @@ class FabricPlayerAdapter(
                     player.z + range,
                 ),
             ) { true }
-            ?.map(::FabricEntityAdapter)
-            ?: emptyList()
+            .map(::FabricEntityAdapter)
 
     override fun rayTrace(reach: Double, source: Position, direction: Rotation): Block? {
-        val f2 = MathHelper.cos((-direction.yaw * (Math.PI / 180.0) - Math.PI).toFloat())
-        val f3 = MathHelper.sin((-direction.yaw * (Math.PI / 180.0) - Math.PI).toFloat())
-        val f4 = -MathHelper.cos((-direction.pitch * (Math.PI / 180.0)).toFloat())
-        val f5 = MathHelper.sin((-direction.pitch * (Math.PI / 180.0)).toFloat())
+        val f2 = Mth.cos((-direction.yaw * (Math.PI / 180.0) - Math.PI).toFloat())
+        val f3 = Mth.sin((-direction.yaw * (Math.PI / 180.0) - Math.PI).toFloat())
+        val f4 = -Mth.cos((-direction.pitch * (Math.PI / 180.0)).toFloat())
+        val f5 = Mth.sin((-direction.pitch * (Math.PI / 180.0)).toFloat())
         val f6 = f3 * f4
         val f7 = f2 * f4
         val vector = source.toVec3d().add(f6 * reach, f5 * reach, f7 * reach)
 
-        return player.world
-            ?.raycast(
-                RaycastContext(
+        return player
+            .level()
+            .clip(
+                ClipContext(
                     source.toVec3d(),
                     vector,
-                    RaycastContext.ShapeType.OUTLINE,
-                    RaycastContext.FluidHandling.NONE,
+                    ClipContext.Block.OUTLINE,
+                    ClipContext.Fluid.NONE,
                     player,
                 ),
             )
-            ?.let(::FabricBlockAdapter)
+            .let(::FabricBlockAdapter)
     }
 }

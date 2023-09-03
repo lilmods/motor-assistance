@@ -2,7 +2,7 @@ package dev.gallon.motorassistance.forge
 
 import dev.gallon.motorassistance.common.services.MotorAssistanceService
 import dev.gallon.motorassistance.forge.adapters.ForgeMinecraftAdapter
-import dev.gallon.motorassistance.forge.adapters.ForgeMouseAdapter
+import dev.gallon.motorassistance.forge.adapters.ForgeInputAdapter
 import dev.gallon.motorassistance.forge.config.ModConfig
 import me.shedaniel.autoconfig.AutoConfig
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer
@@ -18,7 +18,7 @@ import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 @Mod("motorassistance")
 object MotorAssistance {
     private var motorAssistance: MotorAssistanceService? = null
-    private val forgeMouseAdapter: ForgeMouseAdapter = ForgeMouseAdapter()
+    private val forgeMouseAdapter: ForgeInputAdapter = ForgeInputAdapter()
 
     init {
         AutoConfig.register(ModConfig::class.java, ::JanksonConfigSerializer)
@@ -39,17 +39,14 @@ object MotorAssistance {
         FORGE_BUS.addListener(::onClientTick)
         FORGE_BUS.addListener(::onRender)
         FORGE_BUS.addListener(forgeMouseAdapter::onClientTick)
-        FORGE_BUS.addListener(forgeMouseAdapter::onMouseButtonReleased)
+        FORGE_BUS.addListener(forgeMouseAdapter::onMouseButtonClicked)
     }
 
     @SubscribeEvent
     fun onLoggingIn(loggingInEvent: LevelEvent.Load) {
         motorAssistance = MotorAssistanceService(
-            minecraft = ForgeMinecraftAdapter(
-                Minecraft.getInstance(),
-                AutoConfig.getConfigHolder(ModConfig::class.java).config.modConfig,
-            ),
-            mouse = forgeMouseAdapter,
+            minecraft = ForgeMinecraftAdapter(Minecraft.getInstance()),
+            input = forgeMouseAdapter,
             config = AutoConfig.getConfigHolder(ModConfig::class.java).config.modConfig,
         )
     }

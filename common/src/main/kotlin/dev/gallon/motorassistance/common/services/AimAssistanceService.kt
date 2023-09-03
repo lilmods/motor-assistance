@@ -9,8 +9,8 @@ import kotlin.math.sqrt
 
 class MotorAssistanceService(
     private val minecraft: Minecraft,
-    private val mouse: Mouse,
-    private val config: MotorAssistanceConfig
+    private val input: Input,
+    private val config: MotorAssistanceConfig,
 ) {
     private var target: Target? = null
     private var interactingWith: TargetType = TargetType.NONE
@@ -26,6 +26,7 @@ class MotorAssistanceService(
      */
     fun analyseEnvironment() {
         if (minecraft.getPlayer()?.canInteract() != true) return
+        if (config.onlyAssistController && !input.isControllerUsed()) return
 
         when (interactingWith) {
             TargetType.ENTITY -> minecraft.getPlayer()!!
@@ -48,6 +49,7 @@ class MotorAssistanceService(
      */
     fun analyseBehavior() {
         if (minecraft.getPlayer()?.canInteract() != true) return
+        if (config.onlyAssistController && !input.isControllerUsed()) return
 
         // Common
         val attackKeyPressed = minecraft.attackKeyPressed()
@@ -71,7 +73,7 @@ class MotorAssistanceService(
         }
 
         // Attack detection
-        val wasLeftClicked = mouse.wasLeftClicked()
+        val wasLeftClicked = input.wasAttackClicked()
 
         if (attackCount == 0 && wasLeftClicked && config.aimEntity) {
             attackCount += 1
@@ -118,6 +120,7 @@ class MotorAssistanceService(
      */
     fun assistIfPossible() {
         if (minecraft.getPlayer()?.canInteract() != true) return
+        if (config.onlyAssistController && !input.isControllerUsed()) return
         if (target == null) return
 
         if (interactingWith != TargetType.NONE) {
@@ -125,14 +128,17 @@ class MotorAssistanceService(
             val rotation = computeRotationsNeeded(
                 minecraft.getPlayer()!!,
                 target!!,
-                config.fov, config.fov,
-                Rotation(aimForce, aimForce)
+                config.fov,
+                config.fov,
+                Rotation(aimForce, aimForce),
             )
 
             // We need to prevent focusing another block while assisting if the player is not moving his mouse
-            val assist = if (interactingWith === TargetType.BLOCK && !mouse.wasMoved()) {
+            val assist = if (interactingWith === TargetType.BLOCK && !input.wasMoved()) {
                 val nextBlock = minecraft.getPlayer()!!.rayTrace(
-                    config.blockRange, minecraft.getPlayer()!!.getEyesPosition(), rotation
+                    config.blockRange,
+                    minecraft.getPlayer()!!.getEyesPosition(),
+                    rotation,
                 )
 
                 // If, after moving the mouse, another block is focused, then don't assist
@@ -151,8 +157,11 @@ class MotorAssistanceService(
                 }
             } else if (interactingWith == TargetType.ENTITY) {
                 // Don't assist if the option to stop when reached is on AND if the player is currently aiming at a mob
-                if (config.stopAttackOnReached) !minecraft.playerAimingMob()
-                else true
+                if (config.stopAttackOnReached) {
+                    !minecraft.playerAimingMob()
+                } else {
+                    true
+                }
             } else {
                 true
             }
@@ -186,7 +195,7 @@ class MotorAssistanceService(
             .map { factor ->
                 computeRotationBetween(
                     source.getEyesPosition(),
-                    target.getPosition().run { copy(y = y + target.getEyesHeight() * factor) }
+                    target.getPosition().run { copy(y = y + target.getEyesHeight() * factor) },
                 )
             }
             .minBy { rotation ->
@@ -229,7 +238,6 @@ class MotorAssistanceService(
         fovY: Double,
         step: Rotation,
     ): Rotation {
-
         val rotation = when (target) {
             is Block -> computeRotationBetween(source.getEyesPosition(), target.getFacePosition())
             is Entity -> computeSmallestRotationBetween(source, target)
@@ -251,9 +259,11 @@ class MotorAssistanceService(
                 if (inFovX && inFovY) {
                     copy(
                         yaw = yaw + ((wrapDegrees(rotation.yaw - yaw)) * step.yaw) / 100,
-                        pitch = pitch + ((wrapDegrees(rotation.pitch - pitch)) * step.pitch) / 100
+                        pitch = pitch + ((wrapDegrees(rotation.pitch - pitch)) * step.pitch) / 100,
                     )
-                } else this
+                } else {
+                    this
+                }
             }
     }
 }

@@ -11,6 +11,7 @@ buildscript {
 plugins {
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("net.minecraftforge.gradle") version forgeGradlePlugin
+    id("org.spongepowered.mixin") version mixinForgeVersion // just to make "framework" work because it relies on mixins
 }
 
 group = "$modGroup.forge"
@@ -27,7 +28,15 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge:$kotlinForForge")
     api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
     compileOnly(project(":common"))
-    compileOnly(fg.deobf("curse.maven:controllable-317269:$controllableVersion"))
+
+    // The libs below end up being optional to run the mod, so make sure that the code that uses these
+    // libs checks if the corresponding mods are loaded first
+
+    // Use these lines to have controllable loaded (used to test the mod using controllable)
+//    implementation(fg.deobf("curse.maven:controllable-317269:$controllableForgeVersion"))
+//    implementation(fg.deobf("curse.maven:framework-549225:$frameworkForgeVersion"))
+    // Use this line to not have controllable loaded during runtime (used to test the mod without controllable loaded)
+    compileOnly(fg.deobf("curse.maven:controllable-317269:$controllableForgeVersion"))
 }
 
 val Project.minecraft: net.minecraftforge.gradle.common.util.MinecraftExtension

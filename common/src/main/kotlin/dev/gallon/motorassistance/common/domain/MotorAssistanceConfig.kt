@@ -15,7 +15,7 @@ data class MotorAssistanceConfig(
     // entity
     val aimEntity: Boolean = true,
     val entityRange: Double = 5.0,
-    val attackInteractionSpeed: Double = 1.5,
+    val attackInteractionSpeed: Double = 0.5,
     val attackInteractionDuration: Long = 1000,
     val attackAssistanceDuration: Long = 1100,
     val attackAimForce: Double = 7.0,

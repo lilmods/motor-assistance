@@ -2,8 +2,8 @@ package dev.gallon.motorassistance.fabric
 
 import dev.gallon.motorassistance.common.domain.MotorAssistanceConfig
 import dev.gallon.motorassistance.common.services.MotorAssistanceService
+import dev.gallon.motorassistance.fabric.adapters.FabricInputAdapter
 import dev.gallon.motorassistance.fabric.adapters.FabricMinecraftAdapter
-import dev.gallon.motorassistance.fabric.adapters.FabricMouseAdapter
 import dev.gallon.motorassistance.fabric.config.ModConfig
 import dev.gallon.motorassistance.fabric.events.RenderEvent
 import dev.gallon.motorassistance.fabric.events.SingleEventBus
@@ -35,7 +35,7 @@ class MotorAssistance : ModInitializer {
         if (motorAssistance == null && MinecraftClient.getInstance().player != null) {
             motorAssistance = MotorAssistanceService(
                 minecraft = FabricMinecraftAdapter(MinecraftClient.getInstance()),
-                mouse = FabricMouseAdapter(),
+                input = FabricInputAdapter(),
                 config = config,
             )
         } else if (motorAssistance != null && MinecraftClient.getInstance().player == null) {

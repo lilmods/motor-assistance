@@ -10,3 +10,4 @@
 - Support for Controllable
 - Added an option to enable assistance only when a controller is used. In that case,
 the assistance will be disabled when using a mouse
+- Improved assistance with controllers

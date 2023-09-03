@@ -34,4 +34,6 @@ const val fabricKotlinVersion = "1.10.10+kotlin.$kotlinVersion" // https://githu
 const val modMenuVersion = "7.2.1" // https://github.com/TerraformersMC/ModMenu/releases
 
 // Forge
-const val controllableVersion = "4598985" // https://www.curseforge.com/minecraft/mc-mods/controllable
+const val mixinForgeVersion = "0.7.+"
+const val controllableForgeVersion = "4598985" // https://www.curseforge.com/minecraft/mc-mods/controllable
+const val frameworkForgeVersion = "4718251" // https://www.curseforge.com/minecraft/mc-mods/framework

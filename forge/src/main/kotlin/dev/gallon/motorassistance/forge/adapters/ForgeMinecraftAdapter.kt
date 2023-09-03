@@ -1,7 +1,6 @@
 package dev.gallon.motorassistance.forge.adapters
 
 import com.mrcrayfish.controllable.Controllable
-import dev.gallon.motorassistance.common.domain.MotorAssistanceConfig
 import dev.gallon.motorassistance.common.interfaces.Block
 import dev.gallon.motorassistance.common.interfaces.Minecraft
 import dev.gallon.motorassistance.common.interfaces.Player
@@ -13,7 +12,6 @@ import net.minecraft.client.Minecraft as ForgeMinecraft
 
 class ForgeMinecraftAdapter(
     private val minecraft: ForgeMinecraft,
-    val config: MotorAssistanceConfig,
 ) : Minecraft {
 
     override fun getPlayer(): Player? = minecraft
@@ -21,14 +19,11 @@ class ForgeMinecraftAdapter(
         ?.let(::ForgePlayerAdapter)
 
     override fun attackKeyPressed(): Boolean =
-        minecraft.options.keyAttack.isDown && config.onlyAssistController
-            .takeIf { it }
-            ?.let {
-                // If we should only assist when using a controller, then make sure that the player is pressing attack
-                // key with its controller
+        minecraft.options.keyAttack.isDown ||
+            (
                 ModList.get().isLoaded("controllable") &&
-                    Controllable.getController()?.run { rTriggerValue != 0.0F } ?: false
-            } ?: true // no constraints
+                    Controllable.getController()?.run { rTriggerValue > 0.0F } ?: false
+                )
 
     override fun playerAimingMob(): Boolean =
         minecraft.crosshairPickEntity is Mob

@@ -10,7 +10,7 @@ object SingleEventBus {
     @Suppress("UNCHECKED_CAST")
     inline fun <reified T : Event> register(noinline callback: (event: T) -> Unit) {
         if (T::class in callbacks) {
-            callbacks[T::class]!!.plus(callback as (event: Event) -> Unit)
+            callbacks[T::class] = callbacks[T::class]!!.plus(callback as (event: Event) -> Unit)
         } else {
             callbacks[T::class] = listOf(callback as (event: Event) -> Unit)
         }
